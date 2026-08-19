@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Slide navigation */
+.slide-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.slide-container > div {
+  scroll-snap-align: start;
+}
+
+/* Custom colors */
+.text-cyan-accent { color: #00d4ff; }
+.bg-cyan-accent { background-color: #00d4ff; }
+.border-cyan-accent { border-color: #00d4ff; }
+
+/* Org colors */
+.bg-rac { background-color: #3b82f6; }
+.bg-cosilico { background-color: #06b6d4; }
+.bg-pe { background-color: #10b981; }
+
+.text-rac { color: #3b82f6; }
+.text-cosilico { color: #06b6d4; }
+.text-pe { color: #10b981; }
+
+.border-rac { border-color: #3b82f6; }
+.border-cosilico { border-color: #06b6d4; }
+.border-pe { border-color: #10b981; }
