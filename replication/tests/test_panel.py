@@ -2,6 +2,7 @@
 
 import pandas as pd
 
+from cu_replication.constants import NO_INCOME_TAX_STATES
 from cu_replication.did import analytic_sample
 from cu_replication.outcomes import PANEL_COLUMNS
 
@@ -26,7 +27,7 @@ def test_analytic_sample_includes_dc(panel: pd.DataFrame) -> None:
 def test_known_state_law_paths(panel: pd.DataFrame) -> None:
     """Known reforms and no-tax paths should remain visible in the panel."""
     outcomes = [column for column in PANEL_COLUMNS if column not in {"state", "year"}]
-    zero_states = panel.loc[panel["state"].isin(("TX", "FL", "WA", "NV", "WY", "AK"))]
+    zero_states = panel.loc[panel["state"].isin(NO_INCOME_TAX_STATES)]
     assert zero_states[outcomes].eq(0).all(axis=None)
 
     indexed = panel.set_index(["state", "year"])

@@ -40,15 +40,12 @@ CORP_UNION_STATES = (
 )
 CORP_ONLY_STATES = ("CT", "IA", "KY", "MA", "MN", "MT", "TN", "WV")
 EXCLUDED_STATES = ("CO", "SD", "NE", "LA")
+NO_INCOME_TAX_STATES = ("AK", "FL", "NV", "TX", "WA", "WY")
 NO_OR_LIMITED_INCOME_TAX_STATES = (
-    "AK",
-    "FL",
-    "NV",
+    *NO_INCOME_TAX_STATES[:3],
     "NH",
     "TN",
-    "TX",
-    "WA",
-    "WY",
+    *NO_INCOME_TAX_STATES[3:],
 )
 REDMAP_STATES = ("MI", "OH", "PA", "TX", "NC", "WI")
 
