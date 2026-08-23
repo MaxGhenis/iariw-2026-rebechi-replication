@@ -1,0 +1,9 @@
+check,passed
+MI OH OK PA WI are 0 in 2009-10 and 1 in 2011,True
+NC is 0 in 2009-10 and 1 in 2013,True
+KS R trifecta throughout 2011-17,True
+MN Democratic trifecta 2013-14,True
+CT Democratic trifecta 2011-21,True
+TX UT ID ND R trifecta throughout 2004-21,True
+NE rep_trifecta missing throughout,True
+DC rep_trifecta zero throughout,True

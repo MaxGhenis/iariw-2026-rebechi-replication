@@ -1,0 +1,13 @@
+ban_group,partisan_group,states,mean_atr_top1_change_2009_2021
+All,R-trifecta acquirers,15,-0.5920761498714018
+All,D trifectas in 2011-13,15,0.364302754384284
+All,Others,17,-0.422043693670129
+CorpUnion,R-trifecta acquirers,8,-0.7695855145564761
+CorpUnion,D trifectas in 2011-13,1,-0.5847079624316738
+CorpUnion,Others,4,-0.3964195430613553
+CorpOnly,R-trifecta acquirers,1,-0.4926040865730067
+CorpOnly,D trifectas in 2011-13,4,0.6960779421950913
+CorpOnly,Others,3,-0.48624881980131995
+Controls,R-trifecta acquirers,6,-0.37197567417436866
+Controls,D trifectas in 2011-13,10,0.32649375094155686
+Controls,Others,10,-0.4130318160742812

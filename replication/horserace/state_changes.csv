@@ -1,0 +1,48 @@
+state,atr_top1_change_2009_2021,rep_trifecta_acq,d_trifecta_2011_2013,partisan_group,ban_group
+AK,0.0,True,False,R-trifecta acquirers,CorpUnion
+AL,-0.1932758448561338,True,False,R-trifecta acquirers,Controls
+AR,-1.0889154819640874,False,True,D trifectas in 2011-13,Controls
+AZ,0.0828685524085877,False,False,Others,CorpUnion
+CA,1.3776505545488433,False,True,D trifectas in 2011-13,Controls
+CT,1.4683528450569874,False,True,D trifectas in 2011-13,CorpOnly
+DC,0.11844817429401999,False,True,D trifectas in 2011-13,Controls
+DE,0.6224955722465184,False,True,D trifectas in 2011-13,Controls
+FL,0.0,False,False,Others,Controls
+GA,-0.26289352359544615,False,False,Others,Controls
+HI,0.7708895712541679,False,True,D trifectas in 2011-13,Controls
+IA,-0.5551724175799349,False,False,Others,CorpOnly
+ID,-1.2883260462542667,False,False,Others,Controls
+IL,1.9024511974017577,False,True,D trifectas in 2011-13,Controls
+IN,-0.16688310008361462,True,False,R-trifecta acquirers,Controls
+KS,-0.6097312286112375,True,False,R-trifecta acquirers,Controls
+KY,-0.9178764412845721,False,False,Others,CorpOnly
+MA,-0.2854939872212858,False,True,D trifectas in 2011-13,CorpOnly
+MD,0.07619669194395229,False,True,D trifectas in 2011-13,Controls
+ME,-1.2051580230190195,True,False,R-trifecta acquirers,Controls
+MI,-0.08805509313473614,True,False,R-trifecta acquirers,CorpUnion
+MN,1.5752051308318924,False,True,D trifectas in 2011-13,CorpOnly
+MO,-0.4573851954196142,False,False,Others,Controls
+MS,-0.019684742644354714,True,False,R-trifecta acquirers,Controls
+MT,0.014302399460547122,False,False,Others,CorpOnly
+NC,-2.6601215394310946,True,False,R-trifecta acquirers,CorpUnion
+ND,-1.6717865660374271,False,False,Others,CorpUnion
+NH,0.0032398413834181516,False,False,Others,CorpUnion
+NJ,-0.8078479789430499,False,False,Others,Controls
+NM,0.7631065269102608,False,False,Others,Controls
+NV,0.0,False,False,Others,Controls
+NY,-2.0299348827758896,False,False,Others,Controls
+OH,-2.601991570971047,True,False,R-trifecta acquirers,CorpUnion
+OK,-0.2934317565477915,True,False,R-trifecta acquirers,CorpUnion
+OR,-0.5700615812929808,False,True,D trifectas in 2011-13,Controls
+PA,-0.00014866255253842553,True,False,R-trifecta acquirers,CorpUnion
+RI,-0.5847079624316738,False,True,D trifectas in 2011-13,CorpUnion
+SC,0.0029629387191887346,False,False,Others,Controls
+TN,-0.4926040865730067,True,False,R-trifecta acquirers,CorpOnly
+TX,0.0,False,False,Others,CorpUnion
+UT,-0.0499999993839948,False,False,Others,Controls
+VA,-0.037121105831851686,True,False,R-trifecta acquirers,Controls
+VT,0.05578281098337712,False,True,D trifectas in 2011-13,Controls
+WA,0.0,False,True,D trifectas in 2011-13,Controls
+WI,-0.5129354938146005,True,False,R-trifecta acquirers,CorpUnion
+WV,0.0262477801127714,False,True,D trifectas in 2011-13,CorpOnly
+WY,0.0,True,False,R-trifecta acquirers,CorpUnion

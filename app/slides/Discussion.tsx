@@ -55,8 +55,11 @@ export function Comment1Slide() {
                 states raised top taxes after 2010.
               </li>
               <li>
-                A theory of change with names: which groups spent in NC, OH, ND, OK, RI after 2010,
-                and which tax bills they backed — or was the channel only electoral?
+                We ran the obvious horse race: adding post × Republican-trifecta acquisition
+                (2011–13; 8 of your 13 states, 1 of 8 corporate-only, 6 of 26 controls) moves the
+                coefficient only 16–20% (top 1% −0.57*, RS −0.07*); REDMAP targeting, ≈ 0. So the
+                contrast is not just the 2010 wave — which leaves the question sharper: what is it?
+                A theory of change with names would answer it.
               </li>
             </ul>
           </div>
