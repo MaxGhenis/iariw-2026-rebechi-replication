@@ -27,12 +27,12 @@ export function Comment1Slide() {
             </p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-xl px-7 py-5">
-            <p className="font-semibold text-slate-900 mb-1">The political first stage points the other way (Table A-4)</p>
+            <p className="font-semibold text-slate-900 mb-1">The detectable political first stage is in the corporate-only group (Table A-4)</p>
             <p>
               By ban type, Republican vote share is n.s. in both groups (0.05, 0.01); the ideology
               shift is significant only in the <em>corporate-only</em> states (+0.27**) — where
-              taxes moved up. Residualizing on vote share or ideology barely moves the tax
-              coefficients (Table 8: −0.47 to −0.56).
+              taxes moved up — and the cross-group differences are n.s. Residualizing on vote share
+              or ideology barely moves the tax coefficients (Table 8: −0.47 to −0.56).
             </p>
           </div>
           <p className="text-slate-600">
@@ -97,7 +97,8 @@ export function Comment2Slide() {
           </p>
           <p>
             Consistent with the paper’s own checks: state-specific trends pull the effect
-            “much closer to zero” (Fig. 4); SDID group estimates are n.s. (Table 6: −0.40, −0.07).
+            “much closer to zero” (Fig. 4; −0.27, n.s., in our panel); SDID group estimates are
+            n.s. (Table 6: −0.40, −0.07).
           </p>
           <div className="border-l-4 border-pe-teal pl-4 py-1.5 bg-teal-50 rounded-r-lg">
             <p className="font-semibold text-slate-900">Asks</p>
@@ -149,9 +150,9 @@ export function Comment3Slide() {
           <div className="border-l-4 border-pe-teal pl-4 py-1.5 bg-teal-50 rounded-r-lg">
             <p className="font-semibold text-slate-900">Asks</p>
             <p>
-              Make the income-tax-states sample (Table B-1) the main one; report leave-three-out;
-              and tell the story of the five reforms — North Dakota’s cuts rode an oil boom, which
-              is a confounder, not a channel.
+              Consider making the income-tax-states sample (Table B-1) the main one; report
+              leave-three-out; and tell the story of the five reforms — North Dakota’s cuts began in
+              May 2009, during the oil boom: a plausible confounder, not a channel.
             </p>
           </div>
         </div>
@@ -168,8 +169,9 @@ export function Comment4Slide() {
     <Slide>
       <SlideTitle>4 · Model the tax function, not six summaries of it</SlideTitle>
       <SlideSubtitle>
-        The same 900 simulated datasets support a household × state × year regression —
-        who got the cut, in dollars (replication, corporate-&amp;-union states)
+        The same 900 simulated datasets support a household-level incidence regression (here
+        in its group-level equivalent) — who got the cut, in dollars (replication,
+        corporate-&amp;-union states)
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-8 items-center pb-4">
         <div className="flex-1 h-full flex items-center justify-center">
@@ -196,8 +198,8 @@ export function Comment4Slide() {
             <p className="font-semibold text-slate-900">Asks</p>
             <p>
               Report β (eq. 5, defined but never shown) and the dollar incidence; say that
-              RS −0.11 is −0.0011 Gini points on a state-tax redistribution of under 0.01 — and
-              that benefits B (eq. 1) are not in the simulation.
+              RS −0.11 is −0.0011 Gini points on a state-tax redistribution of about 0.004 — and
+              say whether benefits B (eq. 1) enter the simulation at all.
             </p>
           </div>
         </div>
@@ -273,7 +275,7 @@ export const LIT: { paper: string; finds: string }[] = [
   {
     paper: 'Gilens, Patterson & Haines (2021, APSR) — not cited',
     finds:
-      'Same natural experiment, generalized synthetic control: top corporate tax −2.83 (p = 0.01), and twice as large in the eight corporate-only states (−5.55) — the union counterweight hypothesized ex ante, in the mirror image of this paper.',
+      'Same natural experiment, generalized synthetic control: top corporate tax −2.83 (p = 0.01; 0–100 index), and twice as large in the eight corporate-only states (−5.55, vs all treated) — the union counterweight hypothesized ex ante, in the mirror image of this paper.',
   },
   {
     paper: 'Slattery, Tazhitdinova & Robinson (2023, JPubE) — cited as “a moderate effect”',
@@ -283,7 +285,7 @@ export const LIT: { paper: string; finds: string }[] = [
   {
     paper: 'Klumpp, Mialon & Williams (2016, JLE)',
     finds:
-      'CU raised Republican House-race wins ≈ 4pp; largest in MN, MT, MI, OH, IA — three of them corporate-only states. The corporate-funded 2010 REDMAP drive targeted MI, OH, PA, TX, NC, WI for redistricting, not for ban type.',
+      'CU raised Republican House-race wins ≈ 4pp; descriptively largest in MN, MT, MI, OH, IA — three of them corporate-only states (no ban-type test reported). The corporate-funded 2010 REDMAP drive targeted MI, OH, PA, TX, NC, WI for redistricting, not for ban type.',
   },
   {
     paper: 'Abdul-Razzak, Prato & Wolton (2020, Electoral Studies)',
@@ -293,7 +295,7 @@ export const LIT: { paper: string; finds: string }[] = [
   {
     paper: 'Hansen, Rocca & Ortiz (2015, JOP); Spencer & Wood (2014)',
     finds:
-      'Major corporations “were not a source of the dramatic increase in independent spending”; the state-level surge ran through 501(c)/527 vehicles with unobservable donors, ≈ $1.6M per treated state per cycle.',
+      'Major corporations “were not a source of the dramatic increase in independent spending” (federal, 2012); the state-level surge ran through 501(c)/527 vehicles whose donors are unobservable — ≈ $1.6M per treated state over 2010–12.',
   },
   {
     paper: 'Akey et al. (2023, NBER); Werner & Coleman (2015, JLEO); Farver (2024)',
