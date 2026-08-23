@@ -11,9 +11,9 @@ requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Max Ghenis" }]
 dependencies = [
-  "matplotlib>=3.8",
-  "numpy>=1.26",
-  "pandas>=2.1",
+  "matplotlib>=3.8,<3.11",
+  "numpy>=1.26,<2.4.4",
+  "pandas>=2.1,<2.4",
   "statsmodels>=0.14",
 ]
 
@@ -22,16 +22,16 @@ cu-replication = "cu_replication.cli:main"
 
 [dependency-groups]
 dev = [
-  "ipykernel>=6.29",
-  "pytest>=8.0",
-  "ruff>=0.9",
+  "ipykernel>=6.29,<6.31",
+  "pytest>=8.0,<9",
+  "ruff>=0.9,<0.16",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cu_replication"]
 
 [tool.uv]
-constraint-dependencies = ["scipy<1.18"]
+constraint-dependencies = ["pytz<2026.3", "scipy<1.18"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"

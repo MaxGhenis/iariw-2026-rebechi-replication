@@ -5,7 +5,10 @@
 #
 # Deflation (paper footnote 8): 2010-dollar incomes scaled to year t by
 # CPI-U(t)/CPI-U(2010). CPI-U annual averages verified against BLS API 2026-08-22.
-.libPaths(c("~/Rlibs", .libPaths()))
+# Honor ordinary R library configuration. Retain the original local-library
+# location as a compatibility fallback when it exists.
+local_lib <- path.expand("~/Rlibs")
+if (dir.exists(local_lib)) .libPaths(c(local_lib, .libPaths()))
 suppressMessages(library(usincometaxes))
 
 cpi <- c(`2004`=188.9, `2005`=195.3, `2006`=201.6, `2007`=207.342, `2008`=215.303,
