@@ -133,6 +133,7 @@ def command_report(root: Path) -> None:
     """Render the executable Quarto report without rerunning TAXSIM."""
     environment = os.environ.copy()
     environment["QUARTO_PYTHON"] = sys.executable
+    environment["JUPYTER_PREFER_ENV_PATH"] = "1"
     subprocess.run(
         ["quarto", "render", "report"], cwd=root, env=environment, check=True
     )
