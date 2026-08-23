@@ -14,7 +14,7 @@ Timing (15 min): paper 9 min (slides 2–18, ~30 s each — move fast, the room 
 Who's who; flipped format; Philippe responds after.
 
 ## 2 · Does money in politics change actual policy?
-The political effects of CU are documented; the policy effects are the open question. Quote the conclusion: "Most research to date has found no impact on actual policy." (Comment 4 will say that sentence is wrong — hold it.) Footnote 1: top-100 donors $2.4B (OpenSecrets).
+The political effects of CU are documented; the policy effects are the open question. Quote the conclusion — attributed on the slide as theirs: "Most research to date has found no impact on actual policy." Say "we come back to that sentence": slide 25 shows it is inaccurate (Gilens 2021, Werner–Coleman 2015, Akey 2023; Slattery mischaracterized). Footnote 1: top-100 donors $2.4B (OpenSecrets).
 
 ## 3 · Timeline
 Two beats: Austin (1990) is why state bans existed in 2010; CU (Jan) + SpeechNow (Mar, D.C. Circuit — the paper's p. 1 calls it a Supreme Court ruling; p. 6 gets it right).

@@ -42,8 +42,9 @@ export function QuestionSlide() {
             research to date has found no impact on actual policy.”
           </p>
           <p className="text-lg text-slate-500 mt-1">
-            This paper supplies the missing link: from campaign finance
-            deregulation to tax schedules to inequality.
+            — the paper’s conclusion. Its claim: this paper supplies the missing
+            link, from campaign finance deregulation to tax schedules to
+            inequality. (We come back to that sentence in the discussion.)
           </p>
         </div>
       </div>
