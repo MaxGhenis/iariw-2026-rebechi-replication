@@ -413,3 +413,49 @@ def wild_bootstrap_pvalue(
         seed=seed,
     )
     return float(result["p-value"].iloc[0])
+
+
+def pretrend_tests(
+    panel: pd.DataFrame,
+    outcomes: Sequence[str] = ("atr_top1", "atr_top5", "rs", "beta"),
+    *,
+    last_pre_year: int = 2009,
+) -> pd.DataFrame:
+    """Differential linear pre-trend tests on the pre-treatment years.
+
+    For each outcome, regress the 2004–``last_pre_year`` panel on state and year
+    fixed effects plus ``group × (year − last_pre_year)`` slopes for the two ban
+    groups, with state-clustered standard errors. A joint test of event-study
+    leads has little power against a monotone drift; this slope test targets it
+    directly. Rows are returned for the main analytic sample and for the
+    income-tax-states sample.
+    """
+    records = []
+    samples = {
+        "main": analytic_sample(panel),
+        "income_tax_only": analytic_sample(panel, income_tax_only=True),
+    }
+    for sample_name, sample in samples.items():
+        data = add_treatment_indicators(sample)
+        pre = data.loc[data["year"] <= last_pre_year].copy()
+        pre["t"] = pre["year"] - last_pre_year
+        pre["cw_t"] = pre["corp_union"] * pre["t"]
+        pre["co_t"] = pre["corp_only"] * pre["t"]
+        for outcome in outcomes:
+            model = smf.ols(
+                f"{outcome} ~ cw_t + co_t + C(state) + C(year)", data=pre
+            ).fit(cov_type="cluster", cov_kwds={"groups": pre["state"]})
+            records.append(
+                {
+                    "sample": sample_name,
+                    "outcome": outcome,
+                    "n": int(model.nobs),
+                    "corp_union_slope": model.params["cw_t"],
+                    "corp_union_se": model.bse["cw_t"],
+                    "corp_union_p": model.pvalues["cw_t"],
+                    "corp_only_slope": model.params["co_t"],
+                    "corp_only_se": model.bse["co_t"],
+                    "corp_only_p": model.pvalues["co_t"],
+                }
+            )
+    return pd.DataFrame(records)

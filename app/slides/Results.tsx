@@ -151,10 +151,11 @@ export function MainResultsSlide() {
 export function EventStudySlide() {
   return (
     <Slide>
-      <SlideTitle>No significant pre-trends; gradual divergence after 2010</SlideTitle>
+      <SlideTitle>Joint pre-trend tests pass; gradual divergence after 2010</SlideTitle>
       <SlideSubtitle>
-        Event studies by pre-existing ban type (paper Figure 3) — joint
-        pre-trend tests pass for every outcome
+        Event studies by pre-existing ban type (paper Figure 3) — joint pre-trend
+        tests p &gt; 0.10 for every outcome in the main specification (after
+        federal tax, RS: p = 0.085, Table D-3)
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-8 items-center pb-6">
         <div className="flex-1 h-full flex items-center justify-center">

@@ -99,3 +99,22 @@ def test_randomization_inference_rejects_with_fixed_seed(panel: pd.DataFrame) ->
     ).iloc[0]
     assert result["ri_p_b2"] < 0.05
     assert result["ri_p_diff"] < 0.05
+
+
+def test_pretrend_tests_match_committed_results(
+    panel: pd.DataFrame, replication_root: Path
+) -> None:
+    """Differential linear pre-trend slopes should match the committed fixture."""
+    from cu_replication.did import pretrend_tests
+
+    expected = pd.read_csv(replication_root / "results" / "pretrend_tests.csv")
+    observed = pretrend_tests(panel)
+    merged = expected.merge(
+        observed, on=["sample", "outcome"], suffixes=("_e", "_o")
+    )
+    assert len(merged) == len(expected) == 8
+    for col in ("corp_union_slope", "corp_union_se", "corp_union_p", "corp_only_slope"):
+        assert (merged[f"{col}_e"] - merged[f"{col}_o"]).abs().max() < 1e-6
+    main_top1 = observed.query("sample == 'main' and outcome == 'atr_top1'").iloc[0]
+    assert main_top1["corp_union_slope"] < -0.08
+    assert main_top1["corp_union_p"] < 0.10

@@ -604,6 +604,26 @@ before reaching zero in the reference year. The committed event-study artifact d
 contain the covariance matrix required to reconstruct joint lead or lag tests, so this
 report does not infer those tests from marginal standard errors.
 
+## Differential linear pre-trend
+
+A joint test of the five event-study leads has little power against a monotone drift. @tbl-pretrend reports the pre-period (2004–2009) slope of each ban group relative to controls, from `results/pretrend_tests.csv`, with state-clustered standard errors.
+
+```{python}
+#| label: tbl-pretrend
+#| tbl-cap: "Differential linear pre-trend, 2004–2009 (slope per year relative to never-ban controls; state-clustered SEs)"
+import pandas as pd
+pre = pd.read_csv("../results/pretrend_tests.csv")
+tab = pre.assign(
+    sample=pre["sample"].map({"main": "Main (47 units)", "income_tax_only": "Income-tax states only"}),
+    corp_union=[f"{b:+.3f} ({s:.3f}), p = {p:.3f}" for b, s, p in zip(pre.corp_union_slope, pre.corp_union_se, pre.corp_union_p)],
+    corp_only=[f"{b:+.3f} ({s:.3f}), p = {p:.3f}" for b, s, p in zip(pre.corp_only_slope, pre.corp_only_se, pre.corp_only_p)],
+)[["sample", "outcome", "n", "corp_union", "corp_only"]]
+tab.columns = ["Sample", "Outcome", "N", "Corporate & union ban", "Corporate-only ban"]
+tab
+```
+
+The corporate-and-union slope on the top-1% ATR is −0.09 pp per year (p = 0.089; −0.13, p = 0.062 among income-tax states), against a post-2010 differential of about −0.045 pp per year; the corporate-only slopes are indistinguishable from zero.
+
 # Incidence
 
 ```{python}

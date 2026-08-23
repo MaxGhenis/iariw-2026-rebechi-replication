@@ -94,9 +94,10 @@ export function Comment2Slide() {
         </div>
         <div className="w-[36%] space-y-3.5 text-lg text-slate-700 leading-snug">
           <p>
-            Gap −1.56 (2004) → −2.03 (2009) → −2.55 (2021): the pre-period slope is at least
-            as steep as the post-period slope. Joint pre-test p = 0.40 only because clustered
-            SEs are wide.
+            Gap −1.56 (2004) → −2.03 (2009) → −2.55 (2021). A differential linear pre-trend
+            test rejects at 10% (−0.09 pp/yr, p = 0.09; −0.13/yr, p = 0.06 among income-tax
+            states) and three of five individual leads are significant at 5%; the joint lead
+            test (p = 0.40) has no power against a drift.
           </p>
           <p>
             Consistent with the paper’s own checks: state-specific trends pull the effect
