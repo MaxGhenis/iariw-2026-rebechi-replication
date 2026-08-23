@@ -21,7 +21,9 @@ export function ChannelsSlide() {
               Republican Senate vote share → redistribution down (RS −0.14*).
               More conservative median ideology → top-1% ATR −0.29**.
               Democratic trifectas and governors → higher top rates and more
-              redistribution; Republican control → the reverse.
+              redistribution; Republican control → the reverse. (These are the
+              significant entries among Table 7’s 36 coefficients; polarization
+              is never significant.)
             </p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-xl px-7 py-5">
@@ -57,9 +59,9 @@ export function UnionSlide() {
       <div className="flex-1 min-h-0 flex gap-10 items-center pb-6">
         <div className="w-[44%] space-y-5 text-xl text-slate-700 leading-relaxed">
           <p>
-            Unions send ≈ <span className="font-semibold">87%</span> of their
-            contributions to Democrats; corporate money leans Republican
-            (2023–24 cycle, OpenSecrets).
+            Per the paper (OpenSecrets, 2023–24 federal cycle), unions send ≈{' '}
+            <span className="font-semibold">87%</span> of their contributions to
+            Democrats; corporate money leans Republican.
           </p>
           <p>
             <span className="font-semibold text-slate-900">
@@ -111,9 +113,10 @@ export function FreedomSlide() {
         </div>
         <p className="text-xl text-slate-700 leading-relaxed max-w-5xl">
           After 2010, both indices rise most in the states that had banned both
-          corporate and union spending — descriptive, but consistent with the
-          tax findings: a policy environment tilting toward business interests,
-          not just a one-off rate cut.
+          corporate and union spending — descriptive, and the Fraser index itself
+          includes the top income-tax rate (fn. 9), so panel (a) partly restates
+          the outcome; the Cato regulatory index in panel (b) is the independent
+          check.
         </p>
       </div>
     </Slide>

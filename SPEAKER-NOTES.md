@@ -32,13 +32,13 @@ Positioning vs Slattery, Tazhitdinova & Robinson (2023): they study statutory ra
 SCF (LWS-harmonized) through TAXSIM, 50 states × 18 years = 900 datasets, one fixed household sample, CPI-deflated. Only legislation varies. Note the footnote: "2011" is the 2010 wave (LWS US10, incomes 2009) — the SCF is triennial. Main text = state tax on AGI; Appendix D = after federal tax.
 
 ## 8 · Outcomes
-ATR; top 5%/1% by income and by net worth; β = ATR top 20% − bottom 20% (defined, never reported — comment 4); Reynolds–Smolensky = Gini(pre) − Gini(post).
+ATR; top 5%/1% by income and by net worth; β = ATR top 20% − bottom 20% — the slide now says it is defined but reported in no table (comment 4 shows it is their most precise outcome); Reynolds–Smolensky = Gini(pre) − Gini(post).
 
 ## 9 · Identification
 Eq. (7): TWFE with CU × CorpBan and CU × CorpUnionBan; event study (2009 omitted); SDID pooled and state-by-state; Wooldridge check. "46 states", N = 846 (= 47 × 18; DC is in the panel — replication slide). SEs clustered by state; coefficients × 100.
 
 ## 10 · First stage
-Pooled (Table A-1/A-2): vote share +3.6 to +5.0pp, ideology +0.20 to +0.41, Dem control −21pp**, Rep trifectas +15pp*. Then the grey box — by ban type (Table A-4) vote share is n.s. in both groups and the ideology shift is significant only in corporate-only states. Say it neutrally here; it returns as comment 1.
+Pooled (Table A-1/A-2): vote share +3.6 to +5.0pp, ideology +0.20 to +0.41. Dem legislative control −21pp** and Rep trifectas +15pp* are each significant in ONE of six specifications (A-5 spec 2; A-7 spec 5) — say so. Then the grey box — by ban type (Table A-4) vote share is n.s. in both groups and the ideology shift is significant only in corporate-only states. Say it neutrally here; it returns as comment 1.
 
 ## 11 · Main result (Table 4)
 Corp&union: top 1% −0.53** (0.24); top 1% by wealth −0.36* (0.19); RS −0.11** (0.04); overall ATR −0.01. Corp-only: all positive, none significant (top 1% +0.30 (0.30)). Difference: top 5% −0.47**, top 1% −0.83**, RS −0.18**. N = 846. Three takeaways: concentrated at the top; asymmetric by ban type; redistribution falls.
@@ -56,7 +56,7 @@ CT, MN positive outliers (corp-only; Democratic/divided); NC, ND, OH most negati
 Political outcomes predict taxes (Rep Senate vote share → RS −0.14*; Senate ideology → top 1% −0.29**; Dem trifecta → top 1% +0.33**). Residualizing on vote share/ideology/polarization leaves corp&union effects at −0.47 to −0.56 → the authors assign the residual to lobbying, donor pressure, agenda-setting.
 
 ## 16 · Union counterweight (Fig. 6)
-Unions ≈ 87% to Democrats (2023–24). Union density slightly higher in corporate-only states. Authors' story: where unions could already spend, new corporate money met a counterweight; where both bans fell (Republican-leaning, weaker unions), deeper pockets won.
+The 87%-to-Democrats figure is the paper's OpenSecrets citation (2023–24 federal cycle) — we did not re-verify it (OpenSecrets blocks scripted access), so attribute it. Union density slightly higher in corporate-only states. Authors' story: where unions could already spend, new corporate money met a counterweight; where both bans fell (Republican-leaning, weaker unions), deeper pockets won.
 
 ## 17 · Economic freedom (Fig. 7)
 Fraser EFNA and Cato indices rise most in corp&union states post-2010. Descriptive — and the Fraser index contains the top income-tax rate (fn. 9).

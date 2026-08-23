@@ -125,7 +125,7 @@ const OUTCOMES = [
   },
   {
     name: 'Progressivity (β)',
-    def: 'ATR of top 20% minus ATR of bottom 20%',
+    def: 'ATR of top 20% minus ATR of bottom 20% — defined (eq. 5) but reported in no table',
     role: 'Shape of the schedule',
   },
   {
@@ -179,8 +179,8 @@ export function DesignSlide() {
     <Slide>
       <SlideTitle>Identification: three complementary designs</SlideTitle>
       <SlideSubtitle>
-        46 states, 2004–2021, N = 846 · treated = pre-2010 ban states · controls = never
-        banned
+        “46 states”, 2004–2021, N = 846 (= 47 units × 18 years: DC is in the panel) · treated =
+        pre-2010 ban states · controls = never banned
       </SlideSubtitle>
       <div className="flex-1 flex flex-col justify-center pb-10 space-y-6 max-w-6xl w-full mx-auto">
         <div className="bg-slate-50 border border-slate-200 rounded-xl px-8 py-5 font-mono text-xl text-slate-800 text-center">

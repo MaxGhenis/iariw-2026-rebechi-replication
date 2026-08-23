@@ -14,9 +14,9 @@ export function QuestionSlide() {
       </SlideSubtitle>
       <div className="flex-1 flex flex-col justify-center pb-10 space-y-6 text-2xl text-slate-700 leading-relaxed max-w-6xl w-full mx-auto">
         <p>
-          In the last presidential election, the 100 largest donors gave{' '}
-          <span className="font-semibold text-slate-900">$2.4 billion</span>{' '}
-          (OpenSecrets).
+          The paper opens with OpenSecrets’ count: in the last presidential
+          election the 100 largest donors gave{' '}
+          <span className="font-semibold text-slate-900">$2.4 billion</span>.
         </p>
         <p>
           <span className="font-semibold text-slate-900">
@@ -108,7 +108,8 @@ export function MapSlide() {
         The natural experiment: 23 states had their own bans
       </SlideTitle>
       <SlideSubtitle>
-        Citizens United erased all of them within months — differentially
+        Citizens United voided all of them; states rewrote their laws during 2010
+        — differentially
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-10 items-center pb-6">
         <div className="w-[38%] space-y-5 text-xl text-slate-700 leading-relaxed">
@@ -135,10 +136,10 @@ export function MapSlide() {
             </p>
           </div>
           <p className="pt-2 border-t border-slate-200">
-            All bans revised to comply by{' '}
-            <span className="font-semibold">November 2010</span>: a sharp,
-            court-imposed, differential deregulation. CO and SD (bans adopted
-            only in 2002 and 2007) are excluded.
+            Laws revised to comply between January and October 2010 (Table 2; New
+            Hampshire has no date, and Montana’s ban was back in force from December
+            2011 to June 2012): a sharp, court-imposed, differential deregulation.
+            CO and SD (bans adopted only in 2002 and 2007) are excluded.
           </p>
         </div>
         <div className="flex-1 h-full flex items-center justify-center">

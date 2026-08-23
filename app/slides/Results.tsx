@@ -29,8 +29,9 @@ export function PoliticsSlide() {
           </p>
           <p>
             <span className="font-semibold text-slate-900">Party control</span>
-            : Democratic legislative control −21pp**; Republican trifectas
-            +15pp*.
+            : Democratic legislative control −21pp** and Republican trifectas
+            +15pp* — each significant in one of six specifications (Tables A-5,
+            A-7).
           </p>
           <p>
             Majority parties became more extreme; minority parties moderated.
@@ -199,7 +200,7 @@ const ROBUSTNESS = [
   },
   {
     name: 'Drop 8 no-income-tax states',
-    result: 'Effects grow (difference: top 1% −1.13***, RS −0.20**) — baseline is a lower bound',
+    result: 'Effects grow (difference: top 1% −1.13***, RS −0.20**) — the authors read the baseline as a lower bound',
   },
   {
     name: 'After-federal-tax income (App. D)',
