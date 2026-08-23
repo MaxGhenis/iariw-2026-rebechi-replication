@@ -48,8 +48,9 @@ subcommand.
 Render the executable Quarto report without rerunning TAXSIM:
 
 ```bash
-uv run quarto render report
+uv run cu-replication report
 ```
 
 The report reads the committed CSVs in `results/` and `horserace/` and writes its HTML
-output under `report/_output/`.
+output under `report/_output/`. The equivalent direct command is
+`quarto render report` from this directory after activating the uv environment.

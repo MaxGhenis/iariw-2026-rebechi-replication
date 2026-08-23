@@ -23,7 +23,10 @@ cu-replication = "cu_replication.cli:main"
 [dependency-groups]
 dev = [
   "ipykernel>=6.29,<6.31",
+  "nbclient>=0.10,<0.11",
+  "nbformat>=5.10,<5.11",
   "pytest>=8.0,<9",
+  "pyyaml>=6.0,<7",
   "ruff>=0.9,<0.16",
 ]
 

@@ -1,0 +1,962 @@
+---
+title: "Public-data replication of What can money buy?"
+subtitle: "Citizens United and simulated state income-tax progressivity"
+author: "Replication package"
+---
+
+```{python}
+#| label: setup
+#| include: false
+
+from importlib import metadata
+from pathlib import Path
+import platform
+import shutil
+import subprocess
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+pd.set_option("display.max_columns", 20)
+pd.set_option("display.max_rows", 100)
+pd.set_option("display.width", 160)
+
+RESULTS = Path("../results")
+HORSERACE = Path("../horserace")
+
+panel = pd.read_csv(RESULTS / "panel_state_year.csv")
+table4 = pd.read_csv(RESULTS / "table4_replication.csv")
+inference = pd.read_csv(RESULTS / "inference_summary.csv")
+ri = (
+    pd.read_csv(RESULTS / "randomization_inference.csv", index_col=0)
+    .rename_axis("outcome")
+    .reset_index()
+)
+per_state = pd.read_csv(RESULTS / "per_state_did.csv")
+leave_out = pd.read_csv(RESULTS / "leave_out.csv")
+group_means = pd.read_csv(RESULTS / "group_means_by_year.csv")
+event_study = pd.read_csv(RESULTS / "event_study.csv")
+micro = pd.read_csv(RESULTS / "micro_heterogeneity.csv")
+union_density = pd.read_csv(RESULTS / "union_density_moderator.csv")
+horse_baseline = pd.read_csv(HORSERACE / "baseline.csv")
+key_models = pd.read_csv(HORSERACE / "key_models.csv")
+acquisition_counts = pd.read_csv(HORSERACE / "acquisition_counts.csv")
+
+TEAL = "#0d9488"
+VIOLET = "#7c3aed"
+ORANGE = "#c2410c"
+INK = "#334155"
+LIGHT = "#cbd5e1"
+
+CORP_UNION = {
+    "AK", "AZ", "MI", "NH", "NC", "ND", "OH", "OK", "PA", "RI", "TX", "WI", "WY"
+}
+CORP_ONLY = {"CT", "IA", "KY", "MA", "MN", "MT", "TN", "WV"}
+EXCLUDED = {"CO", "SD", "NE", "LA"}
+NO_OR_LIMITED_BROAD_INCOME_TAX = {"AK", "FL", "NV", "NH", "TN", "TX", "WA", "WY"}
+
+OUTCOME_LABELS = {
+    "atr": "ATR",
+    "atr_top5": "ATR, top 5% by AGI",
+    "atr_top1": "ATR, top 1% by AGI",
+    "atr_top5nw": "ATR, top 5% by net worth",
+    "atr_top1nw": "ATR, top 1% by net worth",
+    "rs": "Reynolds–Smolensky",
+    "beta": "β (top-minus-bottom ATR)",
+}
+SAMPLE_LABELS = {
+    "main_846": "Main sample, CU from 2010",
+    "noDC_828": "Main sample excluding DC",
+    "B1_702": "No or limited broad-income-tax states excluded",
+    "main_cu2011": "Main sample, CU from 2011",
+}
+GROUP_LABELS = {
+    "agi_bottom20": "AGI bottom 20%",
+    "agi_20_80": "AGI 20–80%",
+    "agi_80_95": "AGI 80–95%",
+    "agi_95_99": "AGI 95–99%",
+    "agi_top1": "AGI top 1%",
+    "nw_top5": "Net worth top 5%",
+    "nw_top1": "Net worth top 1%",
+    "capshare_gt50_agi50k": "Capital share above 50%, AGI above $50,000",
+    "capshare_lt10_agi50k": "Capital share below 10%, AGI above $50,000",
+    "wagesh_gt90_top5": "Wage share above 90%, AGI top 5%",
+    "age65plus": "Head age 65 or older",
+    "married_kids": "Married with children",
+}
+
+
+def minus_sign(value: str) -> str:
+    """Replace an ASCII minus with a typographic minus."""
+    return value.replace("-", "−")
+
+
+def fmt_num(value, digits=2, plus=False) -> str:
+    """Format a number for an academic table."""
+    if pd.isna(value):
+        return "—"
+    spec = f"+.{digits}f" if plus else f".{digits}f"
+    return minus_sign(format(float(value), spec))
+
+
+def sig_stars(pvalue) -> str:
+    """Return conventional significance stars for a p-value."""
+    if pd.isna(pvalue):
+        return ""
+    if pvalue < 0.01:
+        return "***"
+    if pvalue < 0.05:
+        return "**"
+    if pvalue < 0.10:
+        return "*"
+    return ""
+
+
+def estimate_cell(coef, se, pvalue, digits=2) -> str:
+    """Format a coefficient, significance stars, and standard error."""
+    if pd.isna(coef):
+        return "—"
+    return f"{fmt_num(coef, digits)}{sig_stars(pvalue)} ({fmt_num(se, digits)})"
+
+
+def p_cell(pvalue, digits=3) -> str:
+    """Format a p-value without rounding a small value to zero."""
+    if pd.isna(pvalue):
+        return "—"
+    threshold = 10 ** (-digits)
+    if pvalue < threshold:
+        return f"<{threshold:.{digits}f}"
+    return f"{pvalue:.{digits}f}"
+
+
+def money_cell(value) -> str:
+    """Format a signed dollar amount."""
+    sign = "−" if value < 0 else "+" if value > 0 else ""
+    return f"{sign}${abs(float(value)):,.0f}"
+
+
+def percent_cell(value, digits=1) -> str:
+    """Format a percentage-point or percentage value."""
+    if pd.isna(value):
+        return "—"
+    return f"{fmt_num(value, digits)}%"
+
+
+paper_t4 = pd.DataFrame(
+    [
+        ("atr", 0.01, 0.10, "", -0.01, 0.13, "", -0.02, 0.12, ""),
+        ("atr_top5", 0.14, 0.14, "", -0.33, 0.20, "", -0.47, 0.20, "**"),
+        ("atr_top1", 0.30, 0.30, "", -0.53, 0.24, "**", -0.83, 0.35, "**"),
+        ("atr_top5nw", 0.07, 0.13, "", -0.25, 0.17, "", -0.32, 0.17, "*"),
+        ("atr_top1nw", 0.10, 0.19, "", -0.36, 0.19, "*", -0.46, 0.23, "*"),
+        ("rs", 0.07, 0.07, "", -0.11, 0.04, "**", -0.18, 0.07, "**"),
+    ],
+    columns=[
+        "outcome", "b1", "se1", "stars1", "b2", "se2", "stars2",
+        "diff", "sed", "starsd",
+    ],
+).set_index("outcome")
+
+
+def quoted_paper_cell(outcome, term) -> str:
+    """Format a value transcribed from the paper's Table 4."""
+    row = paper_t4.loc[outcome]
+    if term == "b1":
+        return f"{fmt_num(row.b1)}{row.stars1} ({fmt_num(row.se1)})"
+    if term == "b2":
+        return f"{fmt_num(row.b2)}{row.stars2} ({fmt_num(row.se2)})"
+    return f"{fmt_num(row['diff'])}{row.starsd} ({fmt_num(row.sed)})"
+
+
+main = table4.query("sample == 'main_846' and cu_from == 2010").set_index("outcome")
+main_top1 = main.loc["atr_top1"]
+main_rs = main.loc["rs"]
+main_atr = main.loc["atr"]
+
+paper_year = 2026
+scf_wave = 2010
+paper_scf_label = 2011
+treatment_year = 2010
+reference_year = 2009
+implicates_used = 1
+panel_start = int(panel.year.min())
+panel_end = int(panel.year.max())
+full_units = int(panel.state.nunique())
+full_rows = int(len(panel))
+periods = int(panel.year.nunique())
+analysis_panel = panel.loc[~panel.state.isin(EXCLUDED)]
+analysis_units = int(analysis_panel.state.nunique())
+analysis_rows = int(len(analysis_panel))
+cluster_df = analysis_units - 1
+star_note = "Stars use cluster-t p-values: *** p<0.01, ** p<0.05, and * p<0.10."
+```
+
+# Abstract {.unnumbered}
+
+This report evaluates a public-data reconstruction of Rebechi et al.’s
+*What Can Money Buy?* (`{python} paper_year`). The reconstruction applies the same
+national household sample to every jurisdiction’s tax law over
+`{python} panel_start`–`{python} panel_end`, collapses the simulated liabilities to a
+state-year panel, and estimates the paper’s two-way fixed-effects design.
+
+The headline result is recovered in sign, scale, and conventional clustered
+inference. For the corporate-and-union-ban group, the replication estimates a
+top-percentile average-tax-rate effect of
+`{python} estimate_cell(main_top1.b2, main_top1.se2, main_top1.p2)`, compared with
+`{python} quoted_paper_cell('atr_top1', 'b2')` in the paper’s Table 4. The
+Reynolds–Smolensky estimate is
+`{python} estimate_cell(main_rs.b2, main_rs.se2, main_rs.p2)`, compared with
+`{python} quoted_paper_cell('rs', 'b2')` in that table. The reconstruction does not
+recover the paper’s near-zero overall ATR result: it estimates
+`{python} estimate_cell(main_atr.b2, main_atr.se2, main_atr.p2)` where Table 4 reports
+`{python} quoted_paper_cell('atr', 'b2')`. The results therefore reproduce the
+headline distributional pattern, but they are not an exact reproduction of the
+authors’ unshared data and code.
+
+# Design and data
+
+## Pipeline
+
+The reconstruction follows these stages:
+
+- download the public Survey of Consumer Finances summary extract and Federal
+  Reserve macro series;
+- return published dollar variables to the source-year dollar convention;
+- map the household records into TAXSIM inputs;
+- run each fixed household through every state-year tax schedule and collapse the
+  liabilities to outcome indices; and
+- estimate the paper’s fixed-effects specifications from the resulting panel.
+
+The committed state-year file is sufficient for every estimate in this report.
+Only the tax simulation stage needs R and `usincometaxes`; none of the report chunks
+reruns TAXSIM.
+
+```{python}
+#| label: tbl-samples
+#| tbl-cap: "Panel and analysis samples"
+
+sample_rows = []
+sample_definitions = [
+    ("Full committed panel", set()),
+    ("Main analysis", EXCLUDED),
+    ("Main analysis excluding DC", EXCLUDED | {"DC"}),
+    (
+        "Broad-income-tax sample",
+        EXCLUDED | NO_OR_LIMITED_BROAD_INCOME_TAX,
+    ),
+]
+for label, drops in sample_definitions:
+    data = panel.loc[~panel.state.isin(drops)]
+    sample_rows.append(
+        {
+            "Sample": label,
+            "Jurisdictions": data.state.nunique(),
+            "Years": data.year.nunique(),
+            "Observations": len(data),
+            "Period": f"{data.year.min()}–{data.year.max()}",
+        }
+    )
+pd.DataFrame(sample_rows).set_index("Sample")
+```
+
+As @tbl-samples shows, the committed panel contains `{python} full_units`
+jurisdictions observed for `{python} periods` years. The analytic sample excludes
+Colorado, South Dakota, Nebraska, and Louisiana, retaining `{python} analysis_units`
+jurisdictions, including the District of Columbia, and `{python} analysis_rows`
+observations.
+
+## Household input mapping
+
+The paper describes an “LWS version of the SCF for the year
+`{python} paper_scf_label`” in footnote 8. Because the SCF is triennial, this
+reconstruction interprets that label as the `{python} scf_wave` SCF wave and uses
+the public summary extract. That choice preserves a fixed national household
+distribution across states and years, but it cannot recover variables available in
+the authors’ harmonized LWS file.
+
+```{python}
+#| label: tbl-input-mapping
+#| tbl-cap: "SCF summary-extract mapping to TAXSIM inputs"
+
+primary_wage_share = 0.60
+secondary_wage_share = 0.40
+split_share = 0.50
+assumed_dependent_age = 10
+
+mapping = pd.DataFrame(
+    [
+        ("Marital status", "mstat", "Married or cohabiting households file jointly; otherwise single"),
+        ("Head age", "page", "Use the head's age"),
+        ("Spouse age", "sage", "Use the head's age for a joint filer because spouse age is unavailable"),
+        ("Children", "depx and dependent ages", f"Use KIDS and assign age {assumed_dependent_age}"),
+        (
+            "Wage income",
+            "pwages and swages",
+            f"Split {primary_wage_share:.0%}/{secondary_wage_share:.0%} for joint filers; otherwise all primary",
+        ),
+        ("Business and farm income", "psemp", "Use BUSSEFARMINC, including inseparable rents and royalties"),
+        (
+            "Interest and dividends",
+            "intrec and dividends",
+            f"Split INTDIVINC {split_share:.0%}/{split_share:.0%}",
+        ),
+        ("Capital gains", "ltcg", "Use KGINC and retain losses"),
+        ("Social Security and retirement", "pensions", "Combine SSRETINC and PENACCTWD"),
+        (
+            "Other transfers",
+            "transfers and otherprop",
+            "Route positive TRANSFOTHINC to transfers and its negative remainder to other property income",
+        ),
+        ("Itemized deductions", "deduction fields", "Set unavailable property-tax, mortgage, and charitable deductions to zero"),
+    ],
+    columns=["SCF concept", "TAXSIM field", "Rule or compromise"],
+)
+mapping.set_index("SCF concept")
+```
+
+The mapping in @tbl-input-mapping is exact for the public reconstruction. Its main
+compromises are filing cohabitants jointly, combining Social Security with taxable
+pensions, and omitting itemized deductions. The dollar rescaling follows the Federal
+Reserve generator’s macro series before incomes are indexed to each simulated tax
+year.
+
+## Outcomes and model
+
+For each jurisdiction-year, the pipeline constructs overall ATR; ATR for the top
+income and net-worth groups; the Reynolds–Smolensky index; and the top-minus-bottom
+ATR slope, β. Outcomes are expressed in percentage points, with the inequality index
+multiplied by the same scale factor used in the paper.
+
+The estimating equation is the paper’s equation (7): post-ruling indicators are
+interacted separately with the corporate-only-ban and corporate-and-union-ban state
+groups, with jurisdiction and year fixed effects. Standard errors are clustered by
+jurisdiction.
+
+# Table 4 replication
+
+```{python}
+#| label: tbl-table4
+#| tbl-cap: "Paper benchmarks and public-data fixed-effects estimates"
+
+sample_order = ["main_846", "noDC_828", "B1_702", "main_cu2011"]
+outcome_order = ["atr", "atr_top5", "atr_top1", "atr_top5nw", "atr_top1nw", "rs"]
+
+def paper_reference(sample, outcome, term):
+    if sample == "main_846":
+        return quoted_paper_cell(outcome, term)
+    if sample == "B1_702" and outcome == "atr_top1" and term == "b2":
+        return "−0.77** (0.30)"
+    if sample == "B1_702" and outcome == "atr_top1" and term == "diff":
+        return "−1.13***"
+    if sample == "B1_702" and outcome == "rs" and term == "b2":
+        return "−0.12** (0.06)"
+    if sample == "B1_702" and outcome == "rs" and term == "diff":
+        return "−0.20**"
+    return "—"
+
+table4_rows = []
+for sample in sample_order:
+    for outcome in outcome_order:
+        row = table4.loc[(table4["sample"] == sample) & (table4["outcome"] == outcome)].iloc[0]
+        table4_rows.append(
+            {
+                "Sample": SAMPLE_LABELS[sample],
+                "Outcome": OUTCOME_LABELS[outcome],
+                "Replication: corporate only": estimate_cell(row.b1, row.se1, row.p1),
+                "Paper: corporate only": paper_reference(sample, outcome, "b1"),
+                "Replication: corporate and union": estimate_cell(row.b2, row.se2, row.p2),
+                "Paper: corporate and union": paper_reference(sample, outcome, "b2"),
+                "Replication: difference": estimate_cell(row["diff"], row.sed, row.pdiff),
+                "Paper: difference": paper_reference(sample, outcome, "diff"),
+                "N": int(row.n),
+            }
+        )
+table4_display = pd.DataFrame(table4_rows).set_index(["Sample", "Outcome"])
+table4_display
+```
+
+@tbl-table4 reports coefficients with clustered standard errors in parentheses. Paper
+columns quote Table 4 for the main specification and the locally transcribed Table B-1
+entries where they are available; the no-DC and alternative-dating rows are replication
+sensitivity analyses. `{python} star_note`
+
+All `{python} len(outcome_order)` corporate-only point estimates in the main
+replication are positive, and none is conventionally significant. The corporate-and-
+union estimate is more negative for the top income group than for overall ATR, but the
+overall ATR discrepancy is the clearest failure to reproduce the paper.
+
+# Inference
+
+```{python}
+#| label: tbl-inference
+#| tbl-cap: "Inference for the corporate-and-union-ban coefficient"
+
+inference_joined = inference.merge(
+    ri[["outcome", "diff", "ri_p_b2", "ri_p_diff"]], on="outcome", how="left"
+)
+inference_table = pd.DataFrame(
+    {
+        "Outcome": inference_joined.outcome.map(OUTCOME_LABELS),
+        "Estimate (clustered SE)": [
+            f"{fmt_num(b)} ({fmt_num(se)})"
+            for b, se in zip(inference_joined.b2, inference_joined.se2)
+        ],
+        "Cluster-t p-value": inference_joined.p_cluster_t.map(p_cell),
+        "RI p-value, coefficient": inference_joined.ri_p_b2.map(p_cell),
+        "RI p-value, difference": inference_joined.ri_p_diff.map(p_cell),
+        "Wild-bootstrap p-value": inference_joined.p_wildboot.map(p_cell),
+    }
+).set_index("Outcome")
+inference_table
+```
+
+The cluster-t calculation in @tbl-inference uses `{python} cluster_df` degrees of
+freedom. The randomization inference holds the treated-group sizes fixed while
+reassigning state labels. The wild-bootstrap column records the committed summary from
+the original reconstruction. Each approach rejects a zero corporate-and-union
+effect for both displayed outcomes at conventional thresholds, although the committed
+CSV does not retain the permutation or bootstrap draws.
+
+# Where the effect lives
+
+The fixed-effects coefficient has a useful descriptive decomposition: because treatment
+timing is common and the panel is balanced, the mean of the treated-state DiDs against
+never-ban controls matches the group coefficient.
+
+```{python}
+#| label: fig-per-state
+#| fig-cap: "State-level DiDs in the corporate-and-union-ban group"
+#| fig-width: 10
+#| fig-height: 6
+
+state_plot = (
+    per_state.query("outcome == 'atr_top1' and group == 'corp_union'")
+    .sort_values("did", ascending=True)
+    .copy()
+)
+state_mean = state_plot.did.mean()
+colors = [TEAL if value < 0 else ORANGE for value in state_plot.did]
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.barh(state_plot.state, state_plot.did, color=colors)
+ax.axvline(0, color=INK, linewidth=1)
+ax.axvline(state_mean, color=VIOLET, linestyle="--", linewidth=2,
+           label=f"Group mean {fmt_num(state_mean)}")
+for y, value in enumerate(state_plot.did):
+    offset = -0.04 if value < 0 else 0.04
+    align = "right" if value < 0 else "left"
+    ax.text(value + offset, y, fmt_num(value, 2, plus=True), va="center", ha=align, color=INK)
+ax.set_xlabel("Top-1% state ATR DiD against never-ban controls (percentage points)")
+ax.set_ylabel("")
+ax.legend(frameon=False, loc="lower right")
+ax.grid(axis="x", color=LIGHT, alpha=0.7)
+ax.set_axisbelow(True)
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: tbl-per-state
+#| tbl-cap: "State-level DiDs underlying the corporate-and-union group mean"
+
+state_table = state_plot[["state", "did"]].copy()
+state_table.columns = ["State", "DiD (percentage points)"]
+state_table["DiD (percentage points)"] = state_table["DiD (percentage points)"].map(
+    lambda value: fmt_num(value, 3, plus=True)
+)
+state_table.set_index("State")
+```
+
+The mean of the `{python} len(state_plot)` state estimates in @fig-per-state and
+@tbl-per-state is `{python} fmt_num(state_mean, 3)`, equal to the baseline
+corporate-and-union coefficient up to stored precision. The most negative state
+contrasts are `{python} ', '.join(state_plot.nsmallest(5, 'did').state.tolist())`.
+Several other states contribute near-zero or positive changes, so this average should
+not be read as a uniform response.
+
+## Leave-out diagnostics
+
+```{python}
+#| label: tbl-leave-one-out
+#| tbl-cap: "Leave-one-state-out corporate-and-union estimates"
+
+single_state_loo = (
+    leave_out.loc[~leave_out.dropped.str.contains("+", regex=False)]
+    .drop_duplicates(["outcome", "dropped"])
+)
+loo_wide = single_state_loo.pivot(index="dropped", columns="outcome", values="b2")
+loo_table = pd.DataFrame(
+    {
+        "State omitted": loo_wide.index,
+        "Top-1% ATR": loo_wide.atr_top1.map(lambda value: fmt_num(value, 3)),
+        "Reynolds–Smolensky": loo_wide.rs.map(lambda value: fmt_num(value, 3)),
+    }
+).set_index("State omitted")
+loo_table
+```
+
+```{python}
+#| label: tbl-leave-three-out
+#| tbl-cap: "Jointly excluding North Carolina, North Dakota, and Ohio"
+
+leave_three_table = pd.DataFrame(
+    {
+        "Outcome": inference.outcome.map(OUTCOME_LABELS),
+        "Estimate": inference.b2_drop_NC_ND_OH.map(lambda value: fmt_num(value, 3)),
+        "Clustered SE": inference.se2_drop.map(lambda value: fmt_num(value, 3)),
+        "p-value": inference.p_drop.map(p_cell),
+    }
+).set_index("Outcome")
+leave_three_table
+```
+
+No single omission in @tbl-leave-one-out reverses the top-percentile result: the
+coefficient ranges from
+`{python} fmt_num(single_state_loo.query("outcome == 'atr_top1'").b2.min(), 3)` to
+`{python} fmt_num(single_state_loo.query("outcome == 'atr_top1'").b2.max(), 3)`.
+Jointly excluding the reformers shown in @tbl-leave-three-out, however, yields the materially
+smaller and statistically imprecise estimates in @tbl-leave-three-out.
+
+# Trends
+
+```{python}
+#| label: fig-group-means
+#| fig-cap: "Top-percentile ATR group means and the corporate-and-union gap"
+#| fig-width: 11
+#| fig-height: 5
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 5))
+
+series = [
+    ("atr_top1_control", "Never-ban controls", VIOLET),
+    ("atr_top1_corp_only", "Corporate-only ban", ORANGE),
+    ("atr_top1_corp_union", "Corporate-and-union ban", TEAL),
+]
+for column, label, color in series:
+    axes[0].plot(group_means.year, group_means[column], color=color, linewidth=2.5, label=label)
+axes[0].axvline(treatment_year, color=INK, linestyle="--", linewidth=1)
+axes[0].set_title("Group means")
+axes[0].set_ylabel("Top-1% state ATR (percent)")
+axes[0].set_xlabel("Year")
+axes[0].legend(frameon=False)
+
+axes[1].plot(
+    group_means.year,
+    group_means.gap_cw_ctrl_atr_top1,
+    color=TEAL,
+    linewidth=2.5,
+)
+axes[1].axvline(treatment_year, color=INK, linestyle="--", linewidth=1)
+axes[1].axhline(0, color=INK, linewidth=1)
+axes[1].set_title("Corporate-and-union gap against controls")
+axes[1].set_ylabel("Gap (percentage points)")
+axes[1].set_xlabel("Year")
+
+for ax in axes:
+    ax.grid(axis="y", color=LIGHT, alpha=0.7)
+    ax.set_axisbelow(True)
+fig.tight_layout()
+plt.show()
+```
+
+The raw corporate-and-union gap in @fig-group-means is
+`{python} fmt_num(group_means.loc[group_means.year.eq(panel_start), 'gap_cw_ctrl_atr_top1'].iloc[0], 3)`
+at the start of the panel,
+`{python} fmt_num(group_means.loc[group_means.year.eq(reference_year), 'gap_cw_ctrl_atr_top1'].iloc[0], 3)`
+in the omitted event-study year, and
+`{python} fmt_num(group_means.loc[group_means.year.eq(panel_end), 'gap_cw_ctrl_atr_top1'].iloc[0], 3)`
+at the end. The widening before the ruling is visible in levels and motivates caution
+about the parallel-trends interpretation.
+
+```{python}
+#| label: tbl-event-study
+#| tbl-cap: "Event-study leads and lags relative to the omitted year"
+
+event_lookup = event_study.set_index(["year", "outcome", "group"])
+
+def event_cell(year, outcome, group):
+    if year == reference_year:
+        return "Reference"
+    row = event_lookup.loc[(year, outcome, group)]
+    return f"{fmt_num(row.b, 3)} ({fmt_num(row.se, 3)})"
+
+event_rows = []
+for year in sorted(event_study.year.unique()):
+    event_rows.append(
+        {
+            "Year": int(year),
+            "Top-1% ATR: corporate and union": event_cell(year, "atr_top1", "corp_union"),
+            "Top-1% ATR: corporate only": event_cell(year, "atr_top1", "corp_only"),
+            "RS: corporate and union": event_cell(year, "rs", "corp_union"),
+            "RS: corporate only": event_cell(year, "rs", "corp_only"),
+        }
+    )
+pd.DataFrame(event_rows).set_index("Year")
+```
+
+@tbl-event-study reports coefficient and clustered standard error for each lead and lag;
+`{python} reference_year` is the omitted category. The pre-period corporate-and-union
+top-percentile coefficients move from
+`{python} fmt_num(event_lookup.loc[(panel_start, 'atr_top1', 'corp_union')].b, 3)` to
+`{python} fmt_num(event_lookup.loc[(reference_year - 1, 'atr_top1', 'corp_union')].b, 3)`
+before reaching zero in the reference year. The committed event-study artifact does not
+contain the covariance matrix required to reconstruct joint lead or lag tests, so this
+report does not infer those tests from marginal standard errors.
+
+# Incidence
+
+```{python}
+#| label: fig-incidence
+#| fig-cap: "Income-gradient estimates in corporate-and-union-ban states"
+#| fig-width: 10
+#| fig-height: 5.5
+
+income_groups = ["agi_bottom20", "agi_20_80", "agi_80_95", "agi_95_99", "agi_top1"]
+gradient = micro.set_index("group").loc[income_groups].reset_index()
+
+fig, ax = plt.subplots(figsize=(10, 5.5))
+y = np.arange(len(gradient))
+bar_colors = [ORANGE if value > 0 else TEAL for value in gradient.b2_corp_union]
+ax.barh(y, gradient.b2_corp_union, color=bar_colors, alpha=0.95)
+ax.errorbar(
+    gradient.b2_corp_union,
+    y,
+    xerr=1.96 * gradient.se2,
+    fmt="none",
+    ecolor=INK,
+    elinewidth=1.5,
+    capsize=4,
+)
+ax.axvline(0, color=INK, linewidth=1)
+ax.set_yticks(y, [GROUP_LABELS[group] for group in gradient.group])
+ax.invert_yaxis()
+ax.set_xlabel("Effect on group state ATR (percentage points; 95% confidence interval)")
+ax.set_ylabel("")
+ax.grid(axis="x", color=LIGHT, alpha=0.7)
+ax.set_axisbelow(True)
+ci_left = (gradient.b2_corp_union - 1.96 * gradient.se2).min()
+ci_right = (gradient.b2_corp_union + 1.96 * gradient.se2).max()
+text_x = max(ci_right, 0) + 0.15
+ax.set_xlim(ci_left - 0.15, text_x + 1.25)
+for yi, row in gradient.iterrows():
+    ax.text(
+        text_x,
+        yi,
+        money_cell(row.dollar_effect_cw) + " per household-year",
+        va="center",
+        color=INK,
+    )
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: tbl-incidence
+#| tbl-cap: "Subgroup incidence estimates"
+
+incidence_table = pd.DataFrame(
+    {
+        "Group": micro.group.map(GROUP_LABELS),
+        "Corporate-only estimate": micro.b1_corp_only.map(lambda value: fmt_num(value, 3)),
+        "Corporate-and-union estimate (SE)": [
+            f"{fmt_num(b, 3)} ({fmt_num(se, 3)})" for b, se in zip(micro.b2_corp_union, micro.se2)
+        ],
+        "p-value": micro.p2.map(p_cell),
+        "Mean AGI, source-year dollars": micro.mean_agi_2010usd.map(lambda value: f"${value:,.0f}"),
+        "Dollar effect per household-year": micro.dollar_effect_cw.map(money_cell),
+    }
+).set_index("Group")
+incidence_table
+```
+
+The AGI-ranked rows of @tbl-incidence form the monotone income gradient drawn in
+@fig-incidence. The top-percentile household estimate corresponds to
+`{python} money_cell(micro.set_index('group').loc['agi_top1', 'dollar_effect_cw'])`
+per household-year at the committed group mean AGI. These are public-reconstruction
+estimates from a fixed household sample, not estimates reported by the paper and not
+independent household-level treatment observations.
+
+```{python}
+#| label: tbl-beta
+#| tbl-cap: "Top-minus-bottom ATR slope estimate"
+
+beta_rows = horse_baseline.loc[horse_baseline.outcome.eq("beta")].copy()
+beta_table = pd.DataFrame(
+    {
+        "Term": beta_rows.term_label.str.replace(" x ", " × ", regex=False),
+        "Estimate (clustered SE)": [
+            estimate_cell(b, se, p, digits=3)
+            for b, se, p in zip(beta_rows.coef, beta_rows.se, beta_rows.pvalue_cluster_t)
+        ],
+        "p-value": beta_rows.pvalue_cluster_t.map(p_cell),
+        "N": beta_rows.nobs.astype(int),
+    }
+).set_index("Term")
+beta_table
+```
+
+The paper defines β in its equation (5) but does not report it in Table 4. In the
+committed panel, the corporate-and-union estimate in @tbl-beta is
+`{python} estimate_cell(beta_rows.loc[beta_rows.term.eq('cu_x_corp_union'), 'coef'].iloc[0], beta_rows.loc[beta_rows.term.eq('cu_x_corp_union'), 'se'].iloc[0], beta_rows.loc[beta_rows.term.eq('cu_x_corp_union'), 'pvalue_cluster_t'].iloc[0], 3)`.
+
+# Union-density moderator
+
+```{python}
+#| label: tbl-union-density
+#| tbl-cap: "Union-density moderator specifications"
+
+def coefficient_pvalue(coef, pvalue):
+    if pd.isna(coef):
+        return "—"
+    return f"{fmt_num(coef, 3)} (p={p_cell(pvalue)})"
+
+union_table = pd.DataFrame(
+    {
+        "Outcome": union_density.outcome.map(OUTCOME_LABELS),
+        "Specification": union_density.spec,
+        "Post × density": [coefficient_pvalue(b, p) for b, p in zip(union_density.cu_dens, union_density.cu_dens_p)],
+        "Corporate only": [coefficient_pvalue(b, p) for b, p in zip(union_density.cu_co, union_density.cu_co_p)],
+        "Corporate and union": [coefficient_pvalue(b, p) for b, p in zip(union_density.cu_cw, union_density.cu_cw_p)],
+        "Corporate and union × density": [coefficient_pvalue(b, p) for b, p in zip(union_density.cu_cw_dens, union_density.cu_cw_dens_p)],
+        "Corporate only × density": [coefficient_pvalue(b, p) for b, p in zip(union_density.cu_co_dens, union_density.cu_co_dens_p)],
+    }
+).set_index(["Outcome", "Specification"])
+union_table
+```
+
+The fully interacted top-percentile specification in @tbl-union-density estimates the
+within-corporate-and-union moderator at
+`{python} coefficient_pvalue(union_density.query("outcome == 'atr_top1' and spec == 'bans+dens+within'").cu_cw_dens.iloc[0], union_density.query("outcome == 'atr_top1' and spec == 'bans+dens+within'").cu_cw_dens_p.iloc[0])`.
+The sign does not support a stronger post-ruling tax decline in higher-density states.
+The committed moderator file contains coefficients and p-values, but not the underlying
+state density series or group means; this report therefore does not repeat the balance
+figures stated in the original audit memo.
+
+# Partisan-control horse race
+
+The horse race asks whether the ban-group interactions proxy for the Republican-trifecta
+acquisition wave, contemporaneous or lagged partisan control, or the REDMAP state set.
+These are decomposition checks. Partisan control may itself respond to the ruling, so a
+surviving ban coefficient does not establish a causal mechanism.
+
+```{python}
+#| label: tbl-horserace
+#| tbl-cap: "Primary partisan-control horse-race specifications"
+
+def added_terms_cell(row):
+    cells = []
+    for suffix in ("1", "2"):
+        term = row[f"added_{suffix}_term"]
+        if pd.notna(term):
+            estimate = estimate_cell(
+                row[f"added_{suffix}_coef"],
+                row[f"added_{suffix}_se"],
+                row[f"added_{suffix}_p"],
+                3,
+            )
+            cells.append(f"{str(term).replace(' x ', ' × ')}: {estimate}")
+    return "; ".join(cells) if cells else "—"
+
+primary_models = key_models.loc[key_models.outcome.isin(["atr_top1", "rs"])].copy()
+horse_table = pd.DataFrame(
+    {
+        "Outcome": primary_models.outcome.map(OUTCOME_LABELS),
+        "Specification": primary_models.spec_label,
+        "Corporate and union": [
+            estimate_cell(b, se, p, 3)
+            for b, se, p in zip(
+                primary_models.corp_union_coef,
+                primary_models.corp_union_se,
+                primary_models.corp_union_p,
+            )
+        ],
+        "Corporate only": [
+            estimate_cell(b, se, p, 3)
+            for b, se, p in zip(
+                primary_models.corp_only_coef,
+                primary_models.corp_only_se,
+                primary_models.corp_only_p,
+            )
+        ],
+        "Added term or terms": primary_models.apply(added_terms_cell, axis=1),
+        "Move toward zero from baseline": primary_models.attenuation_vs_a_pct.map(
+            lambda value: percent_cell(value, 1)
+        ),
+        "N": primary_models.nobs.astype(int),
+    }
+).set_index(["Outcome", "Specification"])
+horse_table
+```
+
+```{python}
+#| label: tbl-acquisition-counts
+#| tbl-cap: "Republican-trifecta acquisition counts by ban group"
+
+acq_table = acquisition_counts.copy()
+acq_table["rep_trifecta_acq"] = acq_table.rep_trifecta_acq.map(
+    {1: "Acquired in the post-ruling wave", 0: "Did not acquire"}
+)
+acq_table = acq_table.rename(
+    columns={
+        "rep_trifecta_acq": "Acquisition status",
+        "CorpUnion": "Corporate and union",
+        "CorpOnly": "Corporate only",
+        "Controls": "Never-ban controls",
+    }
+).set_index("Acquisition status")
+acq_table
+```
+
+@tbl-acquisition-counts shows that
+`{python} int(acquisition_counts.loc[acquisition_counts.rep_trifecta_acq.eq(1), 'CorpUnion'].iloc[0])`
+of `{python} len(CORP_UNION)` corporate-and-union states acquired a Republican trifecta,
+compared with
+`{python} int(acquisition_counts.loc[acquisition_counts.rep_trifecta_acq.eq(1), 'CorpOnly'].iloc[0])`
+of `{python} len(CORP_ONLY)` corporate-only states and
+`{python} int(acquisition_counts.loc[acquisition_counts.rep_trifecta_acq.eq(1), 'Controls'].iloc[0])`
+of `{python} analysis_units - len(CORP_UNION) - len(CORP_ONLY)` controls.
+
+In @tbl-horserace, adding the acquisition-wave term moves the top-percentile
+corporate-and-union estimate from
+`{python} fmt_num(primary_models.query("outcome == 'atr_top1' and spec == 'a_baseline'").corp_union_coef.iloc[0], 3)`
+to
+`{python} fmt_num(primary_models.query("outcome == 'atr_top1' and spec == 'b_acquirer'").corp_union_coef.iloc[0], 3)`,
+an attenuation of
+`{python} percent_cell(primary_models.query("outcome == 'atr_top1' and spec == 'b_acquirer'").attenuation_vs_a_pct.iloc[0], 1)`.
+The coefficient remains similar in magnitude across the contemporaneous, lagged,
+REDMAP, combined, and restricted specifications. Its exact conventional significance
+level varies across specifications.
+
+# Caveats and not-done items
+
+- The reconstruction uses `{python} implicates_used` SCF implicate. It does not propagate
+  between-implicate sampling uncertainty.
+- The public summary extract is not the authors’ LWS harmonization. Spouse wages,
+  interest and dividends, Social Security and pensions, and itemized deductions cannot
+  all be separated as in a richer microdata file.
+- The reconstruction uses the currently available TAXSIM build. State-law encodings can
+  change across vintages, and the resulting state income-tax liability excludes local
+  income taxes.
+- The committed result grid contains
+  `{python} len(table4[['sample', 'cu_from']].drop_duplicates())` sample-and-dating
+  variants. Alternative dating is available only for the main sample, not as a complete
+  cross-product with every sample restriction.
+- The micro-incidence CSV preserves subgroup results, but the underlying household-level
+  TAXSIM outputs are not committed. Most subgroup rows therefore cannot be regenerated
+  from the state-year panel alone.
+- The event-study CSV preserves marginal coefficients and standard errors, not the full
+  covariance matrix. Joint lead and lag tests are intentionally not reconstructed from
+  insufficient information.
+- The union-density CSV omits the underlying state density panel, and the inference
+  summaries omit the randomization and bootstrap draws.
+- Synthetic difference-in-differences, after-federal-tax outcomes, state-specific trend
+  specifications, and multiple-implicate inference were not re-estimated here.
+- Partisan-control specifications are potentially post-treatment controls. They are
+  useful proxy and decomposition checks, not clean causal tests of a partisan channel.
+
+# Appendix {.unnumbered}
+
+## Exact commands {.unnumbered}
+
+The fast path starts from the committed state-year panel:
+
+```bash
+cd replication
+uv sync
+uv run cu-replication estimate
+```
+
+The full reconstruction runs the stages explicitly and requires R only for TAXSIM:
+
+```bash
+cd replication
+uv run cu-replication download
+uv run cu-replication build-inputs
+uv run cu-replication taxsim
+uv run cu-replication outcomes
+uv run cu-replication estimate
+uv run cu-replication figures
+```
+
+Tests, static checks, and report rendering use:
+
+```bash
+cd replication
+uv run pytest -q
+uv run ruff check .
+quarto render report
+```
+
+## Software versions {.unnumbered}
+
+```{python}
+#| label: tbl-software
+#| tbl-cap: "Software versions detected while rendering"
+
+def distribution_version(name):
+    try:
+        return metadata.version(name)
+    except metadata.PackageNotFoundError:
+        return "not installed"
+
+
+def command_version(command, argument="--version"):
+    if shutil.which(command) is None:
+        return "not available"
+    completed = subprocess.run(
+        [command, argument],
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=10,
+    )
+    output = (completed.stdout or completed.stderr).strip().splitlines()
+    return output[0] if output else "version unavailable"
+
+
+software = pd.DataFrame(
+    [
+        ("Python", platform.python_version()),
+        ("cu-replication", distribution_version("cu-replication")),
+        ("pandas", distribution_version("pandas")),
+        ("NumPy", distribution_version("numpy")),
+        ("statsmodels", distribution_version("statsmodels")),
+        ("Matplotlib", distribution_version("matplotlib")),
+        ("pytest", distribution_version("pytest")),
+        ("ruff", distribution_version("ruff")),
+        ("Quarto", command_version("quarto")),
+        ("R", command_version("Rscript")),
+    ],
+    columns=["Software", "Version"],
+).set_index("Software")
+software
+```
+
+@tbl-software records the versions detected in the rendering environment.
+
+## File manifest {.unnumbered}
+
+```{python}
+#| label: tbl-manifest
+#| tbl-cap: "Committed CSV artifacts available to the report"
+
+manifest_rows = []
+for base in (RESULTS, HORSERACE):
+    for path in sorted(base.glob("*.csv")):
+        frame = pd.read_csv(path)
+        manifest_rows.append(
+            {
+                "File": str(path),
+                "Rows": len(frame),
+                "Columns": len(frame.columns),
+                "Size (KiB)": round(path.stat().st_size / 1024, 1),
+            }
+        )
+manifest = pd.DataFrame(manifest_rows).set_index("File")
+manifest
+```
+
+@tbl-manifest lists the committed result artifacts, including diagnostic files not
+displayed in the main report. TAXSIM micro outputs and randomization draw files are not
+part of the committed report input set.
