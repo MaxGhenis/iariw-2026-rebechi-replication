@@ -65,7 +65,7 @@ export function Comment1Slide() {
           </div>
           <p className="text-lg text-slate-500">
             Replication: SCF 2010 public extract → TAXSIM-35 (local), 47 units × 18 years; union
-            density from Hirsch–Macpherson (unionstats.com). Everything is open: github.com/MaxGhenis/iariw-2026-discussant-slides
+            density from Hirsch–Macpherson (unionstats.com). Everything is open: github.com/MaxGhenis/iariw-2026-rebechi-replication
           </p>
         </div>
       </div>
@@ -262,7 +262,7 @@ export function ReplicationSlide() {
           </p>
           <p className="text-lg text-slate-500">
             Full pipeline ≈ 25 minutes of compute; one SCF implicate; TAXSIM vintage differs.
-            Scripts, panel and results: github.com/MaxGhenis/iariw-2026-discussant-slides. A released 47 × 18 panel plus code would make
+            Scripts, panel and results: github.com/MaxGhenis/iariw-2026-rebechi-replication. A released 47 × 18 panel plus code would make
             the core table reproducible in an afternoon.
           </p>
         </div>

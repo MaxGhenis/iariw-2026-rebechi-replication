@@ -94,7 +94,7 @@ export function CloseSlide() {
             Thank you — and over to <span className="font-semibold">Philippe Van Kerm</span>
           </p>
           <p className="text-lg text-slate-400 mt-2">
-            Max Ghenis · max@policyengine.org · slides, memo, replication: github.com/MaxGhenis/iariw-2026-discussant-slides
+            Max Ghenis · max@policyengine.org · slides, memo, replication: github.com/MaxGhenis/iariw-2026-rebechi-replication
           </p>
         </div>
       </div>

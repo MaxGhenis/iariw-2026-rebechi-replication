@@ -1,4 +1,4 @@
-# IARIW 2026 discussant slides — Rebechi et al., "What Can Money Buy?"
+# Rebechi et al. (2026), "What Can Money Buy?" — discussant slides, review and replication
 
 Discussant presentation (flipped format: discussant presents, author responds) for
 Rebechi, Van Kerm, Paradowski, Lepinteur & Rohde (2026), *What Can Money Buy?
@@ -7,7 +7,7 @@ Conference, Brussels, Fri 28 Aug 2026 4:00pm, Room A1, session "Recent laws and 
 inequality implications". Discussant: Max Ghenis (PolicyEngine). Author response:
 Philippe Van Kerm.
 
-Public repository: https://github.com/MaxGhenis/iariw-2026-discussant-slides (MIT). Everything here — slides, review memo,
+Public repository: https://github.com/MaxGhenis/iariw-2026-rebechi-replication (MIT). Everything here — slides, review memo,
 verification audit, replication scripts and results — is open.
 
 - `app/slides/*.tsx` — 26 slides (Next.js + Tailwind): 1–18 present the paper, 20–23 four
