@@ -5,6 +5,8 @@ from cu_replication.constants import (
     CORP_UNION_STATES,
     CPI_U,
     EXCLUDED_STATES,
+    NO_INCOME_TAX_STATES,
+    NO_OR_LIMITED_INCOME_TAX_STATES,
     TAXSIM_STATE_CODES,
 )
 
@@ -42,6 +44,21 @@ def test_state_groups_are_disjoint_and_have_expected_sizes() -> None:
         not left & right
         for i, left in enumerate(groups)
         for right in groups[i + 1 :]
+    )
+
+
+def test_no_income_tax_state_groups_are_explicit() -> None:
+    """No-tax states should be distinct from the broader appendix exclusion."""
+    assert NO_INCOME_TAX_STATES == ("AK", "FL", "NV", "TX", "WA", "WY")
+    assert NO_OR_LIMITED_INCOME_TAX_STATES == (
+        "AK",
+        "FL",
+        "NV",
+        "NH",
+        "TN",
+        "TX",
+        "WA",
+        "WY",
     )
 
 
