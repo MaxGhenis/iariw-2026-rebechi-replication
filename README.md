@@ -17,8 +17,8 @@ verification audit, replication scripts and results — is open.
   ranked discussant questions, what held up
 - `review/lenses/` — source-by-source evidence behind the memo (literature survey, citations,
   red team, econometrics, magnitudes, mechanism, replication availability)
-- `replication/` — public-data replication of the paper's Table 4 (SCF 2010 → NBER TAXSIM-35 →
-  TWFE), scripts, results and report; data are downloaded by `scripts/01_download.sh`
+- [`replication/README.md`](replication/README.md) — package quick start and full pipeline.
+- [`replication/report/index.qmd`](replication/report/index.qmd) — executable Quarto report.
 - `public/figures/` — figures cropped from the authors' PDF plus `repl-*.png` from the replication
 - `export/discussant-slides.pdf` — PDF for the Oxford Abstracts upload
 
