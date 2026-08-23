@@ -7,3 +7,21 @@ test-results/
 tsconfig.tsbuildinfo
 taxsim35.html
 replication/horserace/placebo_draws.csv
+
+# Python and uv
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+replication/data/
+
+# Quarto scratch; rendered report output remains trackable
+replication/report/.jupyter_cache/
+replication/report/.quarto/
+replication/report/.quarto-runtime/
+replication/report/_freeze/
+replication/report/index_files/
