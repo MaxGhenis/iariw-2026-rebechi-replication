@@ -32,6 +32,8 @@ import {
   Comment2Slide,
   Comment3Slide,
   Comment4Slide,
+  ReplicationSlide,
+  LiteratureSlide,
 } from './slides/Discussion';
 
 const slides = [
@@ -58,6 +60,8 @@ const slides = [
   Comment2Slide,
   Comment3Slide,
   Comment4Slide,
+  ReplicationSlide,
+  LiteratureSlide,
   CloseSlide,
 ];
 

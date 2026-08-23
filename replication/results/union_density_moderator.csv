@@ -1,0 +1,7 @@
+outcome,spec,cu_dens,cu_dens_p,cu_co,cu_co_p,cu_cw,cu_cw_p,cu_cw_dens,cu_cw_dens_p,cu_co_dens,cu_co_dens_p
+atr_top1,densOnly,0.065,0.003,,,,,,,,
+atr_top1,bans+dens,0.064,0.001,0.143,0.592,-0.674,0.015,,,,
+atr_top1,bans+dens+within,0.065,0.004,0.08,0.732,-0.677,0.014,-0.023,0.569,0.086,0.239
+rs,densOnly,0.008,0.003,,,,,,,,
+rs,bans+dens,0.008,0.001,0.016,0.69,-0.089,0.009,,,,
+rs,bans+dens+within,0.008,0.005,0.006,0.861,-0.09,0.008,-0.003,0.519,0.013,0.22

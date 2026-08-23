@@ -101,6 +101,10 @@ export function DataSlide() {
               Appendix D repeats everything on after-federal-tax income —
               results are larger and sharper there.
             </p>
+            <p className="mt-3">
+              (The SCF is triennial: “2011” is the 2010 wave, LWS US10, with
+              incomes for 2009 — see the replication slide.)
+            </p>
           </div>
         </div>
       </div>
@@ -175,7 +179,7 @@ export function DesignSlide() {
     <Slide>
       <SlideTitle>Identification: three complementary designs</SlideTitle>
       <SlideSubtitle>
-        46 states, 2004–2021 · treated = pre-2010 ban states · controls = never
+        46 states, 2004–2021, N = 846 · treated = pre-2010 ban states · controls = never
         banned
       </SlideSubtitle>
       <div className="flex-1 flex flex-col justify-center pb-10 space-y-6 max-w-6xl w-full mx-auto">

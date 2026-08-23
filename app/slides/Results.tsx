@@ -36,6 +36,11 @@ export function PoliticsSlide() {
             Majority parties became more extreme; minority parties moderated.
             Polarization itself moved little.
           </p>
+          <p className="text-lg text-slate-500 border-l-4 border-slate-300 pl-4">
+            By ban type (Table A-4): vote-share effects are not significant in
+            either group, and the ideology shift is significant only in
+            corporate-only-ban states (+0.27**).
+          </p>
         </div>
         <div className="flex-1 h-full flex items-center justify-center">
           <img
@@ -145,7 +150,7 @@ export function MainResultsSlide() {
 export function EventStudySlide() {
   return (
     <Slide>
-      <SlideTitle>No pre-trends; gradual divergence after 2010</SlideTitle>
+      <SlideTitle>No significant pre-trends; gradual divergence after 2010</SlideTitle>
       <SlideSubtitle>
         Event studies by pre-existing ban type (paper Figure 3) — joint
         pre-trend tests pass for every outcome
@@ -182,11 +187,11 @@ export function EventStudySlide() {
 const ROBUSTNESS = [
   {
     name: 'Synthetic DiD',
-    result: 'Same signs; ban-type differences hold (top 1% −0.72*, RS −0.13*)',
+    result: 'Same signs; group estimates smaller and not significant (top 1% −0.40, RS −0.07); ban-type differences hold at 10% (−0.72*, −0.13*)',
   },
   {
     name: 'Wooldridge (2025) TWFE',
-    result: 'Nearly identical to baseline (top 1% −0.53**, RS −0.11**)',
+    result: 'Identical to baseline (top 1% −0.53**, RS −0.11**) — expected with one treatment date and never-treated controls',
   },
   {
     name: 'Leave-one-out',
@@ -205,7 +210,7 @@ const ROBUSTNESS = [
 export function RobustnessSlide() {
   return (
     <Slide>
-      <SlideTitle>The same answer under stress</SlideTitle>
+      <SlideTitle>The same signs under stress — with two caveats</SlideTitle>
       <SlideSubtitle>
         Alternative estimators, samples, and income concepts
       </SlideSubtitle>
@@ -227,10 +232,11 @@ export function RobustnessSlide() {
             <span className="font-semibold text-slate-900">
               The honest caveat:
             </span>{' '}
-            adding state-specific linear trends attenuates the
-            corporate-and-union effects toward zero. The authors treat trends
-            as a robustness check, since they can absorb genuinely gradual
-            treatment effects — exactly the dynamics the event studies show.
+            adding state-specific linear trends pulls the corporate-and-union
+            effects “much closer to zero” (Fig. 4), and the SDID group estimates
+            lose significance. The authors treat trends as a robustness check,
+            since they can absorb genuinely gradual treatment effects — exactly
+            the dynamics the event studies show.
           </p>
         </div>
       </div>

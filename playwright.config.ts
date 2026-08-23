@@ -1,5 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
+const port = process.env.PORT || '3000';
+
 export default defineConfig({
   testDir: './tests',
   timeout: 60000,
@@ -8,8 +10,8 @@ export default defineConfig({
     deviceScaleFactor: 2,
   },
   webServer: {
-    command: 'bun run dev',
-    url: 'http://localhost:3000',
+    command: `bun run dev -- -p ${port}`,
+    url: `http://localhost:${port}`,
     reuseExistingServer: true,
     timeout: 120000,
   },

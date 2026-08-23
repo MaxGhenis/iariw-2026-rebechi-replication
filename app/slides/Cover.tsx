@@ -57,7 +57,7 @@ export function DiscussionDividerSlide() {
       <div className="text-center space-y-6">
         <h1 className="text-6xl font-bold">Discussion</h1>
         <p className="text-2xl text-slate-300">
-          Four comments and some minor notes — from a tax-microsimulation seat
+          Four comments and a public-data replication — from a tax-microsimulation seat
         </p>
       </div>
     </Slide>
@@ -83,9 +83,10 @@ export function CloseSlide() {
             sample ends in 2021. Does extending the panel sharpen the effect?
           </p>
           <p>
-            <span className="text-teal-300 font-semibold">Direct democracy.</span>{' '}
-            Does the legislature channel weaken in initiative and referendum
-            states?
+            <span className="text-teal-300 font-semibold">Who actually spent?</span>{' '}
+            Your Table 1 shows the two sides near parity by 2020–24 at the federal
+            level. What does the state-level ledger look like in the 13 states that
+            drive the result?
           </p>
         </div>
         <div className="text-center pt-8 border-t border-slate-600">
