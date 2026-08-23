@@ -6,3 +6,4 @@ playwright-report/
 test-results/
 tsconfig.tsbuildinfo
 taxsim35.html
+replication/horserace/placebo_draws.csv

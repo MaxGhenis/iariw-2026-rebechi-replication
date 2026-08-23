@@ -7,6 +7,9 @@ Conference, Brussels, Fri 28 Aug 2026 4:00pm, Room A1, session "Recent laws and 
 inequality implications". Discussant: Max Ghenis (PolicyEngine). Author response:
 Philippe Van Kerm.
 
+Public repository: https://github.com/MaxGhenis/iariw-2026-discussant-slides (MIT). Everything here — slides, review memo,
+verification audit, replication scripts and results — is open.
+
 - `app/slides/*.tsx` — 26 slides (Next.js + Tailwind): 1–18 present the paper, 20–23 four
   comments, 24 replication, 25 literature, 26 close
 - `SPEAKER-NOTES.md` — talk track with every number sourced to a paper table or a file here
