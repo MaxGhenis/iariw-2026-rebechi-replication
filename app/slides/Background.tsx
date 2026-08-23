@@ -153,57 +153,76 @@ export function MapSlide() {
   );
 }
 
+const CYCLES = ['2004', '2008', '2012', '2016', '2020', '2024'];
 const SPENDING = [
-  { row: 'For Democrats', y2004: '60', y2024: '1,062', ratio: '×18' },
-  { row: 'For Republicans', y2004: '23', y2024: '763', ratio: '×33' },
-  { row: 'Against Democrats', y2004: '4', y2024: '1,411', ratio: '×353' },
-  { row: 'Against Republicans', y2004: '7', y2024: '923', ratio: '×132' },
+  { row: 'For Democrats', vals: ['60', '121', '73', '150', '644', '1,062'] },
+  { row: 'For Republicans', vals: ['23', '20', '179', '343', '961†', '763'] },
+  { row: 'Against Democrats', vals: ['4', '34', '472', '392', '1,003', '1,411'] },
+  { row: 'Against Republicans', vals: ['7', '32', '295', '504', '961', '923'] },
+];
+const ALIGNED = [
+  { row: 'Republican-aligned (for R + against D)', vals: ['27', '54', '651', '735', '1,964†', '2,174'] },
+  { row: 'Democratic-aligned (for D + against R)', vals: ['67', '153', '368', '654', '1,605', '1,985'] },
 ];
 
 export function SpendingSlide() {
   return (
     <Slide>
-      <SlideTitle>What followed: an explosion of outside spending</SlideTitle>
+      <SlideTitle>What followed: outside spending went from under $100M to over $4B a cycle</SlideTitle>
       <SlideSubtitle>
-        Outside spending by recipient party, $ millions (paper Table 1;
-        OpenSecrets)
+        Paper Table 1 (OpenSecrets): federal outside spending by recipient party, $ millions —
+        the full series, both sides summed
       </SlideSubtitle>
-      <div className="flex-1 flex flex-col justify-center pb-10 max-w-4xl w-full mx-auto">
-        <table className="w-full text-2xl">
+      <div className="flex-1 flex flex-col justify-center pb-8 max-w-6xl w-full mx-auto">
+        <table className="w-full text-xl">
           <thead>
             <tr className="border-b-2 border-slate-800 text-slate-900">
-              <th className="text-left py-3 font-semibold"> </th>
-              <th className="text-right py-3 font-semibold">2004</th>
-              <th className="text-right py-3 font-semibold">2024</th>
-              <th className="text-right py-3 font-semibold text-pe-teal">
-                Growth
-              </th>
+              <th className="text-left py-2 font-semibold"> </th>
+              {CYCLES.map((c) => (
+                <th key={c} className="text-right py-2 font-semibold">
+                  {c}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {SPENDING.map((r) => (
               <tr key={r.row} className="border-b border-slate-200">
-                <td className="py-3 text-slate-700">{r.row}</td>
-                <td className="py-3 text-right text-slate-700">{r.y2004}</td>
-                <td className="py-3 text-right text-slate-700">{r.y2024}</td>
-                <td
-                  className={`py-3 text-right font-semibold ${r.ratio === '×353' ? 'text-pe-teal' : 'text-slate-900'}`}
-                >
-                  {r.ratio}
-                </td>
+                <td className="py-2 text-slate-700">{r.row}</td>
+                {r.vals.map((v, i) => (
+                  <td key={i} className="py-2 text-right tabular-nums text-slate-700">
+                    {v}
+                  </td>
+                ))}
+              </tr>
+            ))}
+            {ALIGNED.map((r) => (
+              <tr key={r.row} className="border-b border-slate-200 bg-slate-50">
+                <td className="py-2 text-slate-900 font-medium">{r.row}</td>
+                {r.vals.map((v, i) => (
+                  <td key={i} className="py-2 text-right tabular-nums text-slate-900 font-medium">
+                    {v}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="mt-8 space-y-3 text-xl text-slate-700">
+        <div className="mt-5 space-y-2 text-lg text-slate-700 leading-snug">
           <p>
-            Negative spending grew fastest — money spent{' '}
-            <em>against</em> Democrats rose 353-fold over twenty years.
+            The paper’s headline — spending <em>against</em> Democrats rose 353-fold — rides on
+            a $4M 2004 base. Both sides grew; since 2016 the two sides have been within about
+            10% of each other.
           </p>
           <p>
             And it went dark: the share of Super PAC spending with{' '}
-            <span className="font-semibold">full donor disclosure</span> fell
-            from 77% (2010) to 33% (2024) (paper Table 3).
+            <span className="font-semibold">full donor disclosure</span> fell from 77% (2010)
+            to 33% (2024) (paper Table 3).
+          </p>
+          <p className="text-base text-slate-500">
+            † As printed, the 2020 column sums to $3.6B, above OpenSecrets’ 2020 total ($2.9B
+            excluding party committees; $3.3B all groups), and “for Republicans” repeats the
+            “against Republicans” figure — likely a transcription slip.
           </p>
         </div>
       </div>
