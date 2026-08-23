@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cu-replication"
+version = "0.1.0"
+description = "Public-data replication of state tax progressivity after Citizens United"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Max Ghenis" }]
+dependencies = [
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "statsmodels>=0.14",
+]
+
+[project.scripts]
+cu-replication = "cu_replication.cli:main"
+
+[dependency-groups]
+dev = [
+  "ipykernel>=6.29",
+  "pytest>=8.0",
+  "ruff>=0.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cu_replication"]
+
+[tool.uv]
+constraint-dependencies = ["scipy<1.18"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+markers = [
+  "r: requires R and the usincometaxes package",
+  "slow: slower optional integration test",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
