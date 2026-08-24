@@ -4,6 +4,8 @@
 **Paper:** "What Can Money Buy? Inequality and Fiscal Policy Implications of Citizens United v. FEC" — Rebechi (Tasmania), Van Kerm (Luxembourg/LIS), Paradowski (LIS), Lepinteur (Luxembourg), Rohde (Griffith). Version of 31 Jul 2026, 68 pp.
 **Format:** IARIW flipped — discussant presents the paper (~15 min), then author (Philippe Van Kerm) responds.
 **Deck:** 26 slides. 1–18 = the paper; 19 = divider; 20 = replication first (the sandwich opener); 21–24 = four comments; 25 = literature; 26 = close.
+**Author response (Mon 24 Aug, Alessio by email; Philippe: "Look great"):** they concede the abstract (ban-type conditionality is the main result; pooled sentence was a v1 leftover), will report trends specs + Rambachan–Roth, will run the joint NC+ND+OH exclusion, will report dollar incidence, didn't know the five reform histories and will discuss them, and are already running horse-race-style interactions. DC is EXCLUDED (say "the 47th unit is then Louisiana" if the count comes up — the uploaded deck's slides 7/9 say DC; correct it aloud, estimates identical either way: −0.67). Alessio is remote (may join online); Philippe responds in the room. Use this generously: "Alessio has already engaged with several of these — they'll fix the abstract and add Rambachan–Roth" strengthens, not weakens, the discussion.
+
 **Backing:** `REVIEW.md` (findings with status), `replication/` (public-data replication, scripts + results), `review/lenses/` (source-by-source evidence), `review/VERIFY.md` (independent GPT-5.6 audit of every finding and slide number: 37 claims, 13 confirmed, 22 confirmed-with-qualification, 2 refuted — qualifications applied).
 
 Timing (15 min): paper 9 min (slides 2–18, ~30 s each — move fast, the room has the paper); discussion 6 min (20–25, ~1 min each; lead with the replication: "I rebuilt your pipeline from public data and Table 4 reproduces" — say "my replication" throughout); close 30 s.
@@ -97,6 +99,7 @@ Three floor questions: federal analogue; the 2021–23 state tax-cut wave (many 
 ---
 
 ## Numbers most likely to be challenged (all sourced)
+- Sample: N = 846 = 47 × 18; per Rebechi (24 Aug) DC is excluded → the 47th unit is Louisiana (kept for tax outcomes); swap is immaterial (−0.673 either way).
 - Paper: Table 4 top 1% −0.53** (0.24), RS −0.11** (0.04), difference −0.83** (0.35); N = 846; Table 6 SDID corp&union −0.40 (0.25), RS −0.07 (0.05); Table 5 pre p 0.166/0.102; Table A-4 vote share 0.05/0.01 n.s., ideology H 0.27** vs 0.18; Table 8 residual −0.47 to −0.56; B-1 −0.77**/−0.12**; D-1 −0.93***/−0.17***.
 - Pre-trend tests (`replication/results/pretrend_tests.csv`): main top-1 −0.090 (0.053) p .089; rs −0.011 (0.007) p .096; income-tax-only top-1 −0.128 (0.068) p .062.
 - Horse race (`replication/horserace/`): + post×acquirer → −0.565 (0.303) / RS −0.072 (0.036); + R-trifecta(t) → −0.640 (0.292); + REDMAP → −0.736 (0.336); acquirers: 8/13, 1/8, 6/26.

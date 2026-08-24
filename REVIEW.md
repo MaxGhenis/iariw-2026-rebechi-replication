@@ -23,7 +23,7 @@ Pipeline: SCF 2010 public summary extract (6,482 families, implicate 1, SCF weig
 | Table B-1 (income-tax states only), top 1% | −0.77** (0.30) | −0.95** (0.36) |
 | Overall ATR | −0.01 (0.13) | −0.35** (0.17) |
 
-- N = 846 is reproduced **only with DC in the panel** (47 × 18); without DC, N = 828 and nothing material changes. Dating CU from 2011 changes nothing.
+- N = 846 requires a 47th unit (47 × 18). Our replication used DC; **Rebechi (24 Aug) confirms DC is excluded**, so the 47th unit is Louisiana — its blanket-primary exclusion evidently applies to the political outcomes only. Immaterial: swapping DC for LA leaves top-1% at −0.673 (0.286) identically (RS −0.081 vs −0.089); dating CU from 2011 changes nothing.
 - Inference: cluster-robust p = 0.02 (top 1%) / 0.01 (RS); randomization inference over the 8/13 ban labels, 5,000 draws: p = 0.013 / 0.013; wild cluster bootstrap (Rademacher, 9,999): p = 0.030 / 0.016. **The stars are not a few-cluster artifact.**
 - What does not reproduce: the clean zero on the overall ATR. The public extract cannot itemize deductions and taxes Social Security as pensions, which inflates middle-class liabilities so across-the-board cuts move our overall ATR; the top-1% and RS rows are insensitive to this. One implicate only; TAXSIM vintage differs from whatever the authors ran (the paper does not say).
 - Added analyses: per-state contributions, leave-three-out, group-mean level series, event-study leads/lags, a household × state × year incidence regression, the paper's unreported β, and a union-density moderator (all in `replication/results/`).
@@ -95,3 +95,19 @@ Pipeline: SCF 2010 public summary extract (6,482 families, implicate 1, SCF weig
 ## 4. What held up
 
 The headline replicates from public data with the same signs, magnitudes and stars (the overall-ATR zero and the Table 5 joint post-period tests do not); the corp-only null matches Slattery et al.'s corporate-only null; the stars survive randomization inference and a wild cluster bootstrap; the 13/8 classification follows the Klumpp et al. map with stated exclusions (NH is the only contestable case and cannot move a tax outcome); the fixed-sample SCF → TAXSIM design is a clean de jure policy panel that the public SCF makes fully replicable; and the authors already disclose the facts that matter most — that state trends attenuate the effect (Fig. 4), that SDID group effects are n.s., that the by-ban-type first stage is weak, and that a few states drive it (p. 27). The discussion's job is to make the abstract say what the tables say, and to ask what the treatment is.
+
+
+## 5. Author response (24 Aug 2026, Rebechi by email; Van Kerm: "Look great")
+
+Received after the slides and repo went to the authors; kept here so the memo reflects the live state.
+Conceded or adopted: the ban-type heterogeneity **is** the main result and the abstract will say so
+(the pooled sentence was a leftover from a v1 pooled specification); state-trend specifications will be
+reported alongside the baseline **plus a Rambachan–Roth sensitivity analysis**; the joint NC+ND+OH
+exclusion will be run; the dollar-incidence table will be reported; the five reform histories were new
+to them and will be discussed in the paper; they are already running interaction models in the spirit
+of the horse race (pre-existing Republican orientation; post-ruling Republican control). Clarified:
+**DC is excluded** (political data unavailable) — so the 47th unit in N = 846 is Louisiana, and the
+"46 states" text needs one line. Asked of us: how to access state-level independent expenditures
+(answer: the NIMSP database at followthemoney.org, now OpenSecrets-run, state data through 2024 with
+an API; coverage varies by state disclosure regime — Spencer & Wood could use ~18 states). Alessio will
+not attend in person; he may join online; he proposes a call, including after the conference.
