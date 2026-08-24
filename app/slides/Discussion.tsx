@@ -37,7 +37,7 @@ export function Comment1Slide() {
           </div>
           <p className="text-slate-600">
             The authors’ resolution — corporate-&amp;-union states had weaker unions — rests on a
-            ~1pp density gap (Fig. 6). In our public-data replication pre-2010 density is 11.5%
+            ~1pp density gap (Fig. 6). In my public-data replication pre-2010 density is 11.5%
             vs 12.4% vs 11.5% across the three groups.
           </p>
         </div>
@@ -49,13 +49,13 @@ export function Comment1Slide() {
                 State the conditionality in the abstract and title the mechanism section after it.
               </li>
               <li>
-                A dose-response test: CU × pre-2010 union density, within ban groups. In our
+                A dose-response test: CU × pre-2010 union density, within ban groups. In my
                 replication the corporate-&amp;-union effect does <em>not</em> scale with density
                 (interaction −0.02, p = 0.57), and CU × density is <em>positive</em> — high-union
                 states raised top taxes after 2010.
               </li>
               <li>
-                We ran the obvious horse race: adding post × Republican-trifecta acquisition
+                I ran the obvious horse race: adding post × Republican-trifecta acquisition
                 (2011–13; 8 of your 13 states, 1 of 8 corporate-only, 6 of 26 controls) moves the
                 coefficient only 16–20% (top 1% −0.57*, RS −0.07*); REDMAP targeting, ≈ 0. So the
                 contrast is not just the 2010 wave — which leaves the question sharper: what is it?
@@ -64,7 +64,7 @@ export function Comment1Slide() {
             </ul>
           </div>
           <p className="text-lg text-slate-500">
-            Replication: SCF 2010 public extract → TAXSIM-35 (local), 47 units × 18 years; union
+            My replication: SCF 2010 public extract → TAXSIM-35 (local), 47 units × 18 years; union
             density from Hirsch–Macpherson (unionstats.com). Everything is open: github.com/MaxGhenis/iariw-2026-rebechi-replication
           </p>
         </div>
@@ -81,7 +81,7 @@ export function Comment2Slide() {
     <Slide>
       <SlideTitle>2 · Which −0.53 do you believe?</SlideTitle>
       <SlideSubtitle>
-        The treated–control gap was already widening before 2010 — replication from public
+        The treated–control gap was already widening before 2010 — my replication from public
         data (SCF 2010 → TAXSIM-35, same design), group means by year
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-8 items-center pb-4">
@@ -101,7 +101,7 @@ export function Comment2Slide() {
           </p>
           <p>
             Consistent with the paper’s own checks: state-specific trends pull the effect
-            “much closer to zero” (Fig. 4; −0.27, n.s., in our panel); SDID group estimates are
+            “much closer to zero” (Fig. 4; −0.27, n.s., in my panel); SDID group estimates are
             n.s. (Table 6: −0.40, −0.07).
           </p>
           <div className="border-l-4 border-pe-teal pl-4 py-1.5 bg-teal-50 rounded-r-lg">
@@ -112,7 +112,7 @@ export function Comment2Slide() {
             </p>
           </div>
           <p className="text-base text-slate-500">
-            In fairness: the stars are not a few-cluster artifact. In our replication the
+            In fairness: the stars are not a few-cluster artifact. In my replication the
             top-1% effect survives randomization inference (p = 0.013) and a wild cluster
             bootstrap (p = 0.030).
           </p>
@@ -130,7 +130,7 @@ export function Comment3Slide() {
     <Slide>
       <SlideTitle>3 · Five tax reforms, not thirteen states</SlideTitle>
       <SlideSubtitle>
-        Per-state contributions to the corporate-&amp;-union coefficient (replication; the paper’s
+        Per-state contributions to the corporate-&amp;-union coefficient (my replication; the paper’s
         Fig. 5 shows the same ranking with SDID)
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-8 items-center pb-4">
@@ -174,7 +174,7 @@ export function Comment4Slide() {
       <SlideTitle>4 · Model the tax function, not six summaries of it</SlideTitle>
       <SlideSubtitle>
         The same 900 simulated datasets support a household-level incidence regression (here
-        in its group-level equivalent) — who got the cut, in dollars (replication,
+        in its group-level equivalent) — who got the cut, in dollars (my replication,
         corporate-&amp;-union states)
       </SlideSubtitle>
       <div className="flex-1 min-h-0 flex gap-8 items-center pb-4">
@@ -196,7 +196,7 @@ export function Comment4Slide() {
             subgroup — so this costs nothing new and turns “RS −0.11” into an incidence table.
             And contrasts difference out common schedule shocks: the β the paper defines in
             eq. (5) but never reports — ATR(top 20%) − ATR(bottom 20%) — is its most precise
-            outcome in our replication: −0.68 (SE 0.22, t = 3.1).
+            outcome in my replication: −0.68 (SE 0.22, t = 3.1).
           </p>
           <div className="border-l-4 border-pe-teal pl-4 py-1.5 bg-teal-50 rounded-r-lg">
             <p className="font-semibold text-slate-900">Asks</p>
@@ -227,7 +227,7 @@ const REPL = [
 export function ReplicationSlide() {
   return (
     <Slide>
-      <SlideTitle>The headline reproduces from public data</SlideTitle>
+      <SlideTitle>First: I rebuilt the pipeline — the headline reproduces</SlideTitle>
       <SlideSubtitle>
         SCF 2010 public extract → NBER TAXSIM-35 (run locally) → 51 jurisdictions × 18 years ×
         6,482 households → eq. (7). Coefficients × 100, SEs clustered by state

@@ -137,9 +137,12 @@ export function MapSlide() {
           </div>
           <p className="pt-2 border-t border-slate-200">
             Laws revised to comply between January and October 2010 (Table 2; New
-            Hampshire has no date, and Montana’s ban was back in force from December
-            2011 to June 2012): a sharp, court-imposed, differential deregulation.
-            CO and SD (bans adopted only in 2002 and 2007) are excluded.
+            Hampshire has no date; Montana’s ban was back in force December 2011 to
+            June 2012). The dates are descriptive — the estimation uses one post-2010
+            dummy for every treated state, and responses varied: Iowa required annual
+            board approval, AZ/SD/WV registration and reporting, while MT, ND and TX
+            held no 2010 session (NCSL). CO and SD (bans adopted only in 2002 and
+            2007) are excluded.
           </p>
         </div>
         <div className="flex-1 h-full flex items-center justify-center">
@@ -212,8 +215,9 @@ export function SpendingSlide() {
         <div className="mt-5 space-y-2 text-lg text-slate-700 leading-snug">
           <p>
             The paper’s headline — spending <em>against</em> Democrats rose 353-fold — rides on
-            a $4M 2004 base. Both sides grew; since 2016 the two sides have been within about
-            10% of each other.
+            a $4M 2004 base, and 2004’s outside money mostly ran through 527 committees
+            (≈ $0.6B that cycle, per CRS) outside these FEC categories. Both sides grew; since
+            2016 the two sides have been within about 10% of each other.
           </p>
           <p>
             And it went dark: the share of Super PAC spending with{' '}

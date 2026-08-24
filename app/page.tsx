@@ -56,11 +56,11 @@ const slides = [
   FreedomSlide,
   ConclusionsSlide,
   DiscussionDividerSlide,
+  ReplicationSlide,
   Comment1Slide,
   Comment2Slide,
   Comment3Slide,
   Comment4Slide,
-  ReplicationSlide,
   LiteratureSlide,
   CloseSlide,
 ];

@@ -80,7 +80,10 @@ export function DataSlide() {
             (incomes CPI-deflated to each year):
           </p>
           <p className="text-3xl font-bold text-pe-teal text-center py-2">
-            50 states × 18 years = 900 datasets
+            “50 states × 18 years = 900 datasets”
+          </p>
+          <p className="text-base text-slate-500 text-center -mt-1">
+            (as written — the estimation panel’s N = 846 implies DC too: 51 × 18 = 918)
           </p>
         </div>
         <div className="space-y-5">

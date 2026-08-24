@@ -80,7 +80,9 @@ export function UnionSlide() {
           </p>
           <p className="text-lg text-slate-500">
             In the authors’ words: the ruling “amplified pre-existing
-            asymmetries in political influence.”
+            asymmetries in political influence.” (For scale, from Gilens et al.
+            2021: corporations’ share of corporate-plus-union independent
+            expenditures rose from 44% before the ruling to 68% after.)
           </p>
         </div>
         <div className="flex-1 h-full flex items-center justify-center">

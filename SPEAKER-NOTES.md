@@ -3,10 +3,10 @@
 **Session:** Recent laws and their inequality implications · Fri 28 Aug 2026, 4:00–5:30pm, **Room A1** (NBB, Brussels; chair Diana Rojas — per the 20 Aug program; earlier notes said Room B). Same session: #326 D'Aguanno & Van Kerm (discussant Katsushi Imai) and #364 Ghenis/Ogorek/Makarchuk (discussant Castaldo).
 **Paper:** "What Can Money Buy? Inequality and Fiscal Policy Implications of Citizens United v. FEC" — Rebechi (Tasmania), Van Kerm (Luxembourg/LIS), Paradowski (LIS), Lepinteur (Luxembourg), Rohde (Griffith). Version of 31 Jul 2026, 68 pp.
 **Format:** IARIW flipped — discussant presents the paper (~15 min), then author (Philippe Van Kerm) responds.
-**Deck:** 26 slides. 1–18 = the paper; 19 = divider; 20–23 = four comments; 24 = replication; 25 = literature; 26 = close.
+**Deck:** 26 slides. 1–18 = the paper; 19 = divider; 20 = replication first (the sandwich opener); 21–24 = four comments; 25 = literature; 26 = close.
 **Backing:** `REVIEW.md` (findings with status), `replication/` (public-data replication, scripts + results), `review/lenses/` (source-by-source evidence), `review/VERIFY.md` (independent GPT-5.6 audit of every finding and slide number: 37 claims, 13 confirmed, 22 confirmed-with-qualification, 2 refuted — qualifications applied).
 
-Timing (15 min): paper 9 min (slides 2–18, ~30 s each — move fast, the room has the paper); discussion 6 min (20–25, ~1 min each); close 30 s.
+Timing (15 min): paper 9 min (slides 2–18, ~30 s each — move fast, the room has the paper); discussion 6 min (20–25, ~1 min each; lead with the replication: "I rebuilt your pipeline from public data and Table 4 reproduces" — say "my replication" throughout); close 30 s.
 
 ---
 
@@ -29,6 +29,7 @@ The paper's Table 1 in full (federal outside spending, OpenSecrets), with both s
 Positioning vs Slattery, Tazhitdinova & Robinson (2023): they study statutory rates and revenues; this paper simulates what households face. Preview the asymmetry.
 
 ## 7 · Measurement
+If asked 50 or 51: the paper says 50 states/900 datasets, but N = 846 requires DC → effectively 51 × 18 = 918; my replication ran 50 + DC. Implicates: the paper never says (the word doesn't appear); LWS ships all five; mine uses implicate 1 — ask them which.
 SCF (LWS-harmonized) through TAXSIM, 50 states × 18 years = 900 datasets, one fixed household sample, CPI-deflated. Only legislation varies. Note the footnote: "2011" is the 2010 wave (LWS US10, incomes 2009) — the SCF is triennial. Main text = state tax on AGI; Appendix D = after federal tax.
 
 ## 8 · Outcomes
@@ -56,6 +57,7 @@ CT, MN positive outliers (corp-only; Democratic/divided); NC, ND, OH most negati
 Political outcomes predict taxes (Rep Senate vote share → RS −0.14*; Senate ideology → top 1% −0.29**; Dem trifecta → top 1% +0.33**). Residualizing on vote share/ideology/polarization leaves corp&union effects at −0.47 to −0.56 → the authors assign the residual to lobbying, donor pressure, agenda-setting.
 
 ## 16 · Union counterweight (Fig. 6)
+Added for scale (verified, Gilens et al. 2021): corporations' share of corporate+union IEs rose 44% → 68% post-CU. No verified corporate party-split number exists in our sources — don't invent one.
 The 87%-to-Democrats figure is the paper's OpenSecrets citation (2023–24 federal cycle) — we did not re-verify it (OpenSecrets blocks scripted access), so attribute it. Union density slightly higher in corporate-only states. Authors' story: where unions could already spend, new corporate money met a counterweight; where both bans fell (Republican-leaning, weaker unions), deeper pockets won.
 
 ## 17 · Economic freedom (Fig. 7)
@@ -67,27 +69,27 @@ Persistently less progressive state income taxes where both bans fell; gradual; 
 ## 19 · Divider
 "Four comments and a public-data replication." Say in one sentence that we rebuilt their pipeline from the public SCF and TAXSIM so the comments come with numbers.
 
-## 20 · Comment 1 — the finding is about the union ban
-Left: Table 4 as a triple-difference — −0.83 is, under DiD logic, the extra effect of also lifting the *union* ban, the opposite of the unions-fund-Democrats prior. Table A-4: vote share n.s. in both groups; ideology shift significant only in corp-only states, where taxes rose. Table 8: residualization barely moves anything. Their resolution (weaker unions in corp&union states) rests on ≈ 1pp of density; in our replication pre-2010 density is 11.5 / 12.4 / 11.5 across the three groups and the corp&union group is bimodal (AK, MI, RI, WI, PA, OH high; NC, TX, OK, AZ, ND low).
+## 20 · Replication (opens the discussion)
+Table: theirs vs mine. Open the discussion with this — it buys goodwill and authority for everything after. Say plainly: it reproduces — signs, magnitudes, stars, the asymmetry, B-1. DC: N = 846 only with DC. "SCF 2011" = 2010 wave (income 2009). What doesn't reproduce: overall ATR (−0.35 vs −0.01) — mapping compromises (no itemization; SS as pensions). 25 minutes of compute; one implicate (theirs unstated). Ask for the 47 × 18 panel and code.
+
+## 21 · Comment 1 — the finding is about the union ban
+Left: Table 4 as a triple-difference — −0.83 is, under DiD logic, the extra effect of also lifting the *union* ban, the opposite of the unions-fund-Democrats prior. Table A-4: vote share n.s. in both groups; ideology shift significant only in corp-only states, where taxes rose. Table 8: residualization barely moves anything. Their resolution (weaker unions in corp&union states) rests on ≈ 1pp of density; in my replication pre-2010 density is 11.5 / 12.4 / 11.5 across the three groups and the corp&union group is bimodal (AK, MI, RI, WI, PA, OH high; NC, TX, OK, AZ, ND low).
 Right, the asks: put the conditionality in the abstract; run CU × union density within ban groups (ours: interaction −0.02, p = 0.57; the density main effect is *positive*, p ≈ 0.003 — high-union states raised top taxes); and the horse race we ran (`replication/horserace/`): post × Republican-trifecta acquisition 2011–13 (8/13 corp&union, 1/8 corp-only, 6/26 controls) attenuates the coefficient only 16–20% (−0.57*, RS −0.07*); time-varying trifecta 5–13%; REDMAP ≈ 0. Say this as a point in their favor — the contrast is not just the 2010 wave — and then ask what it is, since neither measured politics (their Table 8) nor union density explains it. Caveat if pressed: trifecta status is post-treatment (bad control), so it's a decomposition, not a causal test.
 If challenged on density numbers: Hirsch–Macpherson, unionstats.com, 2004–09 means (2009 cross-section 11.5 / 12.7 / 11.5); script `replication/scripts/10_union_density.py`. The positive density term is associational, not a CU dose-response. Don't call the triple-diff a proven union-ban causal margin — it is the between-bloc contrast, read through the paper's own DiD logic.
 
-## 21 · Comment 2 — which −0.53 do you believe
-Chart = our replication's group means. Gap −1.56 (2004) → −2.03 (2009) → −2.55 (2021); pre-period leads +0.46 (p .07), +0.48 (p .04), +0.45 (p .03), +0.37 (p .04), +0.22 (p .12) — three of five significant at 5%. Differential linear pre-trend 2004–09 (`replication/results/pretrend_tests.csv`): corp&union −0.090/yr (SE 0.053, p = 0.089) on top-1% ATR, RS −0.011/yr (p = 0.096); income-tax states only −0.128/yr (p = 0.062); corp-only slopes ≈ 0 (p ≈ 0.7). The joint 5-df lead test (p = 0.40) has no power against a drift. Consistent with the paper: trends spec → ≈ 0 (Fig. 4); SDID groups n.s. Slattery et al. fn. 11 explicitly reject parallel trends in levels of tax rates (and use logs); Gilens et al. use generalized synthetic control, which does not need them. With state-specific trends our panel gives −0.27 (n.s.). Asks: trends spec as co-equal; Rambachan–Roth bounds. Fairness line: RI p = 0.013, wild bootstrap p = 0.030 — not a few-cluster artifact.
+## 22 · Comment 2 — which −0.53 do you believe
+Chart = my replication's group means. Gap −1.56 (2004) → −2.03 (2009) → −2.55 (2021); pre-period leads +0.46 (p .07), +0.48 (p .04), +0.45 (p .03), +0.37 (p .04), +0.22 (p .12) — three of five significant at 5%. Differential linear pre-trend 2004–09 (`replication/results/pretrend_tests.csv`): corp&union −0.090/yr (SE 0.053, p = 0.089) on top-1% ATR, RS −0.011/yr (p = 0.096); income-tax states only −0.128/yr (p = 0.062); corp-only slopes ≈ 0 (p ≈ 0.7). The joint 5-df lead test (p = 0.40) has no power against a drift. Consistent with the paper: trends spec → ≈ 0 (Fig. 4); SDID groups n.s. Slattery et al. fn. 11 explicitly reject parallel trends in levels of tax rates (and use logs); Gilens et al. use generalized synthetic control, which does not need them. With state-specific trends my panel gives −0.27 (n.s.). Asks: trends spec as co-equal; Rambachan–Roth bounds. Fairness line: RI p = 0.013, wild bootstrap p = 0.030 — not a few-cluster artifact.
 Pre-2010 drivers of the decline (if asked): OH HB 66 (2005) phase-down, RI 2006 flat-tax option, OK 2005–07 cuts, ND 2009 cut, AZ 2007.
 
-## 22 · Comment 3 — five reforms, not thirteen states
+## 23 · Comment 3 — five reforms, not thirteen states
 Chart = per-state DiDs: OH −2.01, ND −1.98, NC −1.83, RI −1.73, OK −1.00; AZ −0.23; AK TX WY NH PA ≈ 0 (no/flat tax); MI +0.13, WI +0.27. Drop NC+ND+OH: −0.29 (SE 0.24, p = 0.22). Timing: ND cut May 2009 (pre-CU, during the oil boom — a plausible confounder); RI reform passed 4 June 2010 before RI's own compliance date; OH's 2011 step is the 2005 law; NC 2013 is the clean case. Asks: B-1 as the main sample; leave-three-out; tell the five stories.
 
-## 23 · Comment 4 — model the tax function
+## 24 · Comment 4 — model the tax function
 Chart = incidence gradient: bottom 20% +0.21 (n.s.), 20–80 −0.19, 80–95 −0.33, 95–99 −0.48, top 1% −0.67 ≈ −$9,014 per household-year (2010 $; ≈ −$6,100 at their −0.53 and SOI means). Capital-heavy −0.53 vs wage-heavy −0.54. With a fixed sample the saturated micro regression *is* their Φ by subgroup. β (their eq. 5, never reported) is the most precise outcome: −0.68 (SE 0.22, t = 3.1). Asks: report β, dollars, the bottom quintile; say RS −0.11 = −0.0011 Gini on a lever of < 0.01; say B is empty.
 Power question (Max asked): micro adds nothing for the average effect — identical coefficients and SEs; it adds precision for within-state-year contrasts because common schedule shocks cancel.
 
-## 24 · Replication
-Table: theirs vs ours. Say plainly: it reproduces — signs, magnitudes, stars, the asymmetry, B-1. DC: N = 846 only with DC. "SCF 2011" = 2010 wave (income 2009). What doesn't reproduce: overall ATR (−0.35 vs −0.01) — mapping compromises (no itemization; SS as pensions). 25 minutes of compute; one implicate. Ask for the 47 × 18 panel and code.
-
 ## 25 · Literature
-Lead with Gilens, Patterson & Haines (2021, APSR): same experiment, policy effects, heterogeneity in the opposite direction, union counterweight hypothesized ex ante (H3) — uncited. Slattery et al.: a precise null including the top PIT rate, mischaracterized as "moderate". Klumpp: biggest electoral effects in MN, MT, IA — corporate-only states. Abdul-Razzak: Democratic-aligned groups still outspent Republican-aligned in treated states after CU. Hansen et al.: corporations weren't the source. Akey, Werner–Coleman, Farver: policy record mixed. Close the loop: the pooled effect they never report (≈ −0.2 implied; −0.34, p = 0.19 on our panel) is consistent with Slattery's null. Gilens' mirror heterogeneity is on a corporate-tax index (corporate-only vs all treated; no formal cross-group test) — a tension to reconcile, not a refutation.
+Lead with Gilens, Patterson & Haines (2021, APSR): same experiment, policy effects, heterogeneity in the opposite direction, union counterweight hypothesized ex ante (H3) — uncited. Slattery et al.: a precise null including the top PIT rate, mischaracterized as "moderate". Klumpp: biggest electoral effects in MN, MT, IA — corporate-only states. Abdul-Razzak: Democratic-aligned groups still outspent Republican-aligned in treated states after CU. Hansen et al.: corporations weren't the source. Akey, Werner–Coleman, Farver: policy record mixed. Close the loop: the pooled effect they never report (≈ −0.2 implied; −0.34, p = 0.19 on my panel) is consistent with Slattery's null. Gilens' mirror heterogeneity is on a corporate-tax index (corporate-only vs all treated; no formal cross-group test) — a tension to reconcile, not a refutation.
 
 ## 26 · Close
 Three floor questions: federal analogue; the 2021–23 state tax-cut wave (many corp&union states cut after the sample ends); who actually spent in the 13 states (their Table 1 is near parity at the federal level by 2020–24). Hand to Philippe.

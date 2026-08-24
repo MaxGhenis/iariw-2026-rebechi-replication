@@ -57,7 +57,7 @@ export function DiscussionDividerSlide() {
       <div className="text-center space-y-6">
         <h1 className="text-6xl font-bold">Discussion</h1>
         <p className="text-2xl text-slate-300">
-          Four comments and a public-data replication — from a tax-microsimulation seat
+          First, a replication — then four comments, from a tax-microsimulation seat
         </p>
       </div>
     </Slide>
