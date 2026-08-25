@@ -32,7 +32,7 @@ export function CoverSlide() {
             IARIW General Conference · Brussels · 28 August 2026
           </p>
           <p className="text-lg text-slate-400">
-            Session: Recent laws and their inequality implications
+            Session: Pensions and wealth transfers · 2:00–3:30pm
           </p>
         </div>
 

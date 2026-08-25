@@ -3,8 +3,8 @@
 Discussant presentation (flipped format: discussant presents, author responds) for
 Rebechi, Van Kerm, Paradowski, Lepinteur & Rohde (2026), *What Can Money Buy?
 Inequality and Fiscal Policy Implications of Citizens United v. FEC*, IARIW General
-Conference, Brussels, Fri 28 Aug 2026 4:00pm, Room A1, session "Recent laws and their
-inequality implications". Discussant: Max Ghenis (PolicyEngine). Author response:
+Conference, Brussels, Fri 28 Aug 2026 2:00–3:30pm, session "Pensions and wealth
+transfers". Discussant: Max Ghenis (PolicyEngine). Author response:
 Philippe Van Kerm.
 
 Public repository: https://github.com/MaxGhenis/iariw-2026-rebechi-replication (MIT). Everything here — slides, review memo,

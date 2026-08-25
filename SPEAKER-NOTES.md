@@ -1,6 +1,6 @@
 # Speaker notes — discussant presentation of Rebechi et al. (2026)
 
-**Session:** Recent laws and their inequality implications · Fri 28 Aug 2026, 4:00–5:30pm, **Room A1** (NBB, Brussels; chair Diana Rojas — per the 20 Aug program; earlier notes said Room B). Same session: #326 D'Aguanno & Van Kerm (discussant Katsushi Imai) and #364 Ghenis/Ogorek/Makarchuk (discussant Castaldo).
+**Session:** Pensions and wealth transfers · Fri 28 Aug 2026, **2:00–3:30pm**, room **"Backstage"** per the online program (verified 25 Aug; David Johnson moved #287 out of "Recent laws…" 4:00–5:30pm/Room A1 to clear Max's double-booking with #364). Chair: Ilja Kavonius (ECB). Same session: #76 Horioka et al. (bequests, Japan; discussant Sierminska) and #275 Apostel (pre-death gifts, Belgium; Ruggles Prize; discussant Wolff). Max's Friday: this discussion at 2pm, then the #364 author response and the #195 discussion at 4pm.
 **Paper:** "What Can Money Buy? Inequality and Fiscal Policy Implications of Citizens United v. FEC" — Rebechi (Tasmania), Van Kerm (Luxembourg/LIS), Paradowski (LIS), Lepinteur (Luxembourg), Rohde (Griffith). Version of 31 Jul 2026, 68 pp.
 **Format:** IARIW flipped — discussant presents the paper (~15 min), then author (Philippe Van Kerm) responds.
 **Deck:** 26 slides. 1–18 = the paper; 19 = divider; 20 = replication first (the sandwich opener); 21–24 = four comments; 25 = literature; 26 = close.
