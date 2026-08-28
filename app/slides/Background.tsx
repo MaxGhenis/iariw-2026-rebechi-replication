@@ -172,7 +172,7 @@ const ALIGNED = [
 export function SpendingSlide() {
   return (
     <Slide>
-      <SlideTitle>What followed: outside spending went from under $100M to over $4B a cycle</SlideTitle>
+      <SlideTitle>What followed: outside spending went from about $200M to over $4B a cycle</SlideTitle>
       <SlideSubtitle>
         Paper Table 1 (OpenSecrets): federal outside spending by recipient party, $ millions —
         the full series, both sides summed
